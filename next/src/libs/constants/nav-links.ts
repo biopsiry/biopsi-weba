@@ -39,8 +39,8 @@ export const navLinksDesktop: NavLink[] = [
         href: '/organization/office',
       },
       {
-        translation: 'tradition_guidelines',
-        href: '/organization/tradition-guidelines',
+        translation: 'overall_patches',
+        href: '/organization/overall-patches',
       },
       {
         translation: 'honorary_members',
@@ -219,8 +219,8 @@ export const navLinksMobile: NavLink[] = [
         href: '/organization/office',
       },
       {
-        translation: 'tradition_guidelines',
-        href: '/organization/tradition-guidelines',
+        translation: 'overall_patches',
+        href: '/organization/overall-patches',
       },
       {
         translation: 'honorary_members',

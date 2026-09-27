@@ -23,7 +23,7 @@ const getStaticPages = (lang: SupportedLanguage) => {
     `/${lang}/organization/board`,
     `/${lang}/organization/meeting-minutes`,
     `/${lang}/organization/office`,
-    `/${lang}/organization/tradition-guidelines`,
+    `/${lang}/organization/overall-patches`,
     `/${lang}/organization/honorary-members`,
     `/${lang}/organization/alumni`,
     `/${lang}/organization/benefits`,

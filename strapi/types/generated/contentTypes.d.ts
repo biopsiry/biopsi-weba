@@ -1696,14 +1696,14 @@ export interface ApiOrganizationRuleOrganizationRule
   };
 }
 
-export interface ApiOrganizationTraditionGuidelineOrganizationTraditionGuideline
+export interface ApiOrganizationOverallPatchOrganizationOverallPatch
   extends Struct.SingleTypeSchema {
-  collectionName: 'organization_tradition_guidelines';
+  collectionName: 'organization_overall_patches';
   info: {
     description: '';
-    displayName: 'OrganizationTraditionGuidelines';
-    pluralName: 'organization-tradition-guidelines';
-    singularName: 'organization-tradition-guideline';
+    displayName: 'OrganizationOverallPatches';
+    pluralName: 'organization-overall-patchs';
+    singularName: 'organization-overall-patch';
   };
   options: {
     draftAndPublish: false;
@@ -1727,7 +1727,7 @@ export interface ApiOrganizationTraditionGuidelineOrganizationTraditionGuideline
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::organization-tradition-guideline.organization-tradition-guideline'
+      'api::organization-overall-patch.organization-overall-patch'
     >;
     publishedAt: Schema.Attribute.DateTime;
     Seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -2629,7 +2629,7 @@ declare module '@strapi/strapi' {
       'api::organization-honorary-member.organization-honorary-member': ApiOrganizationHonoraryMemberOrganizationHonoraryMember;
       'api::organization-office.organization-office': ApiOrganizationOfficeOrganizationOffice;
       'api::organization-rule.organization-rule': ApiOrganizationRuleOrganizationRule;
-      'api::organization-tradition-guideline.organization-tradition-guideline': ApiOrganizationTraditionGuidelineOrganizationTraditionGuideline;
+      'api::organization-overall-patch.organization-overall-patch': ApiOrganizationOverallPatchOrganizationOverallPatch;
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::sport.sport': ApiSportSport;
       'api::studies-general.studies-general': ApiStudiesGeneralStudiesGeneral;

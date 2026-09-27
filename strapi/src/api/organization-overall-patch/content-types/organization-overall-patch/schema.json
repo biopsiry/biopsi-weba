@@ -1,10 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "organization_tradition_guidelines",
+  "collectionName": "organization_overall_patches",
   "info": {
-    "singularName": "organization-tradition-guideline",
-    "pluralName": "organization-tradition-guidelines",
-    "displayName": "OrganizationTraditionGuidelines",
+    "singularName": "organization-overall-patch",
+    "pluralName": "organization-overall-patchs",
+    "displayName": "OrganizationOverallPatches",
     "description": ""
   },
   "options": {

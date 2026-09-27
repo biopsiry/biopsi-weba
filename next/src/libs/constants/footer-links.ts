@@ -32,8 +32,8 @@ export const footerLinks: FooterLink[] = [
         href: '/organization/office',
       },
       {
-        translation: 'tradition_guidelines',
-        href: '/organization/tradition-guidelines',
+        translation: 'overall_patches',
+        href: '/organization/overall-patches',
       },
       {
         translation: 'honorary_members',

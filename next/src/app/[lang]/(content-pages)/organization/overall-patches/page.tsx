@@ -6,22 +6,22 @@ import { Metadata } from 'next';
 import { lang as language } from 'next/root-params';
 
 const url =
-  '/api/organization-tradition-guideline?populate[0]=Content.banner&populate[1]=Seo.twitter.twitterImage&populate[2]=Seo.openGraph.openGraphImage';
+  '/api/organization-overall-patch?populate[0]=Content.banner&populate[1]=Seo.twitter.twitterImage&populate[2]=Seo.openGraph.openGraphImage';
 const tags = [
-  'organization-tradition-guideline',
+  'organization-overall-patch',
 ] as const satisfies StrapiCacheTag[];
 
-export default async function OrganizationTraditionGuidelines() {
+export default async function OrganizationOverallPatches() {
   return <ContentPage fetchTags={tags} url={url} />;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
   const lang = await language();
   const data = await getStrapiData<
-    APIResponse<'api::organization-tradition-guideline.organization-tradition-guideline'>
+    APIResponse<'api::organization-overall-patch.organization-overall-patch'>
   >(lang, url, tags);
 
-  const pathname = `/${lang}/tradition-guidelines`;
+  const pathname = `/${lang}/overall-patches`;
 
   return formatMetadata(data, pathname);
 }

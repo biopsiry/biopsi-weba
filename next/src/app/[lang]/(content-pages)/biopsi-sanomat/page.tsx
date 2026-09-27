@@ -40,7 +40,7 @@ export default async function LuuppiSanomat() {
           <a
             key={publication.documentId}
             className="group relative flex cursor-pointer flex-col gap-4 transition-transform duration-300 hover:scale-105"
-            href={`/${lang}/luuppi-sanomat/${toCalendarDate(publication.publishedAt!)}`}
+            href={`/${lang}/biopsi-sanomat/${toCalendarDate(publication.publishedAt!)}`}
           >
             {publication.image.url && (
               <div

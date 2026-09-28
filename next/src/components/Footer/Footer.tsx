@@ -10,7 +10,7 @@ import {
   FaLinkedin,
   FaTiktok
 } from 'react-icons/fa';
-import { SiLinktree } from "react-icons/si";
+import { SiLinktree } from 'react-icons/si';
 import biopsiSvg from '../../../public/biopsi.svg';
 
 interface FooterProps {
@@ -102,7 +102,7 @@ export default async function Footer({ dictionary, lang }: FooterProps) {
               href="https://github.com/biopsiry">
               <FaGithub className="text-white" size={20} />
             </Link>
-              <Link 
+            <Link 
               aria-label="Linktree"
               href="https://linktr.ee/biopsi_ry">
               <SiLinktree className="text-white" size={20} />

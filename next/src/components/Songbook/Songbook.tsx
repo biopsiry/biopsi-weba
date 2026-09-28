@@ -6,17 +6,17 @@ import { MdClear } from 'react-icons/md';
 
 // TODO: Should come from the backend
 const CATEGORIES = [
-  'Luuppi',
-  'Isänmaa',
-  'Politiikka',
-  'Alkoholi',
-  'Sitsit',
-  'Juomalaulu',
-  'Kotimaa',
-  'Ulkomaat',
-  'Lasten leikki',
-  'Pakanajuhla',
-  'Happo XXX K-18',
+  'Viraalinen osio',
+  'Pinosytoosi',
+  'SH-otti domain',
+  'Iki-GFP',
+  'Biopsin jälkikasvu (F1)',
+  'Bikkujoululaulut',
+  'Finglish',
+  'Svenskasjungande bättre folk',
+  'Voi happo! (Härskit)',
+  'Biobiisit',
+  'Palladiumit',
 ] as const;
 
 interface SongbookProps {

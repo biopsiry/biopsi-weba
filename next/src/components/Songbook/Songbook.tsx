@@ -198,23 +198,17 @@ export default function Songbook({ dictionary }: SongbookProps) {
         const categoryNum = categoryMatch ? parseInt(categoryMatch[0]) : 0;
         let category = 'Muu';
 
-        if (categoryNum >= 1 && categoryNum <= 100) category = 'Luuppi';
-        else if (categoryNum >= 101 && categoryNum <= 200) category = 'Isänmaa';
-        else if (categoryNum >= 201 && categoryNum <= 300)
-          category = 'Politiikka';
-        else if (categoryNum >= 301 && categoryNum <= 400)
-          category = 'Alkoholi';
-        else if (categoryNum >= 401 && categoryNum <= 500) category = 'Sitsit';
-        else if (categoryNum >= 501 && categoryNum <= 600)
-          category = 'Juomalaulu';
-        else if (categoryNum >= 601 && categoryNum <= 700) category = 'Kotimaa';
-        else if (categoryNum >= 701 && categoryNum <= 800)
-          category = 'Ulkomaat';
-        else if (categoryNum >= 801 && categoryNum <= 900)
-          category = 'Lasten leikki';
-        else if (categoryNum >= 901 && categoryNum <= 1000)
-          category = 'Pakanajuhla';
-        else if (categoryNum >= 1001) category = 'Happo XXX K-18';
+        if (categoryNum >= 1 && categoryNum <= 9) category = 'Viraalinen osio';
+        else if (categoryNum >= 10 && categoryNum <= 69) category = 'Pinosytoosi';
+        else if (categoryNum >= 70 && categoryNum <= 79) category = 'SH-otti domain';
+        else if (categoryNum >= 80 && categoryNum <= 105) category = 'Iki-GFP';
+        else if (categoryNum >= 106 && categoryNum <= 127) category = 'Biopsin jälkikasvu (F1)';
+        else if (categoryNum >= 128 && categoryNum <= 135) category = 'Bikkujoululaulut';
+        else if (categoryNum >= 136 && categoryNum <= 153) category = 'Finglish';
+        else if (categoryNum >= 154 && categoryNum <= 159) category = 'Svenskasjungande bättre folk';
+        else if (categoryNum >= 160 && categoryNum <= 165) category = 'Voi happo! (Härskit)';
+        else if (categoryNum >= 166 && categoryNum <= 180) category = 'Biobiisit';
+        else if (categoryNum >= 181) category = 'Palladiumit';
 
         if (!acc[category]) {
           acc[category] = [];

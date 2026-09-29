@@ -29,18 +29,6 @@ model User {
   roles              RolesOnUsers[]
   answers            Answer[]
   domicle            String?
-  addressDeclaration AddressDeclaration[]
-}
-
-model AddressDeclaration {
-  id            Int      @id @default(autoincrement())
-  entraUserUuid String
-  user          User     @relation(fields: [entraUserUuid], references: [entraUserUuid], onDelete: Cascade)
-  year          Int      @db.SmallInt
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@unique([entraUserUuid, year])
 }
 
 model BiopsiMembershipRenewal {

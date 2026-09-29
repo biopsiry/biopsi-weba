@@ -179,9 +179,10 @@
     "dark": "Dark"
   },
   "mail_list": {
-    "loop": "LOOP: Events, partner announcements, and academic matters related to Biopsi",
-    "subscribed": "You've been added to the LOOP mail list",
-    "unsubscribed": "You've been removed from the LOOP mail list"
+    "loop": "BIOPSILAISET: Events, partner announcements, and academic matters related to Biopsi",
+    "subscribed": "You've been added to the BIOPSILAISET mail list",
+    "unsubscribed": "You've been removed from the BIOPSILAISET mail list",
+    "subscription_error": "There was an error when subscribing the mail list"
   },
   "auth": {
     "login_to_account": "Login to your account",

@@ -1,5 +1,6 @@
 'use client';
-import { subscribe, unsubscribe } from '@/actions/email-lists';
+
+import { updateProfileNotifications } from '@/actions/tuni-mailman';
 import { Dictionary } from '@/models/locale';
 import { useState } from 'react';
 import FormCheckbox from '../FormCheckbox/FormCheckbox';
@@ -7,11 +8,13 @@ import FormCheckbox from '../FormCheckbox/FormCheckbox';
 interface ProfileNotificationsFormProps {
   dictionary: Dictionary;
   subscribed: boolean;
+  available: boolean;
 }
 
 export default function ProfileNotificationsForm({
   dictionary,
   subscribed,
+  available,
 }: ProfileNotificationsFormProps) {
   const [isSubscribed, setIsSubscribed] = useState(subscribed);
   const [message, setMessage] = useState<{
@@ -20,39 +23,76 @@ export default function ProfileNotificationsForm({
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
 
-  const handleToggle = async (unchecked: boolean) => {
+  const handleToggle = async (nextSubscribed: boolean) => {
+    if (!available || isPending) {
+      return;
+    }
+
+    const previousSubscribed = isSubscribed;
+
     setIsPending(true);
     setMessage(null);
 
-    const result = unchecked
-      ? await subscribe(dictionary)
-      : await unsubscribe(dictionary);
+    // Optimistic update.
+    setIsSubscribed(nextSubscribed);
 
-    if ('isError' in result && result.isError) {
-      setMessage({ text: result.message, isError: true });
+    try {
+      const result =
+        await updateProfileNotifications(nextSubscribed);
 
-      // Revert on error
-      setIsSubscribed(!unchecked);
-    } else {
-      setMessage({ text: result.message, isError: false });
-      setIsSubscribed(unchecked);
+      if (!result.success) {
+        setIsSubscribed(result.subscribed);
+
+        setMessage({
+          text: result.error,
+          isError: true,
+        });
+
+        return;
+      }
+
+      setIsSubscribed(result.subscribed);
+
+      setMessage({
+        text: nextSubscribed
+          ? dictionary.mail_list.subscribed
+          : dictionary.mail_list.unsubscribed,
+        isError: false,
+      });
+    } catch {
+      setIsSubscribed(previousSubscribed);
+
+      setMessage({
+        text: dictionary.mail_list.subscription_error,
+        isError: true,
+      });
+    } finally {
+      setIsPending(false);
     }
-
-    setIsPending(false);
   };
 
   return (
-    <form className="card card-body">
+    <form
+      className="card card-body"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <h2 className="mb-4 text-lg font-semibold">
         {dictionary.pages_profile.email_subscription}
       </h2>
       <FormCheckbox
         checked={isSubscribed}
-        disabled={isPending}
-        id="loop"
+        disabled={!available || isPending}
+        id="biopsilaiset"
         title={dictionary.mail_list.loop}
         onChange={(e) => handleToggle(e.target.checked)}
       />
+
+      {!available && (
+        <div className="mt-4 rounded-lg bg-error/10 p-3 text-sm text-error">
+          Mailing list service is currently unavailable.
+        </div>
+      )}
+
       {message && (
         <div
           className={`mt-4 rounded-lg p-3 text-sm ${

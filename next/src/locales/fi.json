@@ -179,9 +179,10 @@
     "dark": "Tumma"
   },
   "mail_list": {
-    "loop": "LOOP: Biopsin tapahtumat, yhteistyötahojen ilmoitukset, opiskeluasiat",
-    "subscribed": "Sinut on lisätty LOOP-sähköpostilistalle",
-    "unsubscribed": "Sinut on poistettu LOOP-sähköpostilistalta"
+    "loop": "BIOPSILAISET: Biopsin tapahtumat, yhteistyötahojen ilmoitukset, opiskeluasiat",
+    "subscribed": "Sinut on lisätty BIOPSILAISET-sähköpostilistalle",
+    "unsubscribed": "Sinut on poistettu BIOPSILAISET-sähköpostilistalta",
+    "subscription_error": "Tapahtui virhe sähköpostilistan tilauksessa"
   },
   "auth": {
     "login_to_account": "Kirjaudu sisään",

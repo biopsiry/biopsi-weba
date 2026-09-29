@@ -5,19 +5,11 @@ import ProfileNotificationsForm from '@/components/ProfileNotificationsForm/Prof
 import ProfileUserInfoForm from '@/components/ProfileUserInfoForm/ProfileUserInfoForm';
 import { getDictionary } from '@/dictionaries';
 import prisma from '@/libs/db/prisma';
+import { tuniMailman } from '@/libs/mailman/tuni-mailman';
 import { logger } from '@/libs/utils/logger';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { lang as language } from 'next/root-params';
-
-const mailman = {
-  auth:
-    'Basic ' +
-    Buffer.from(
-      `${process.env.MAILMAN_USER}:${process.env.MAILMAN_PASSWORD}`,
-    ).toString('base64'),
-  baseUrl: `http://${process.env.MAILMAN_HOSTNAME}:${process.env.MAILMAN_PORT}`,
-};
 
 export default async function Profile() {
   const lang = await language();
@@ -29,6 +21,11 @@ export default async function Profile() {
     redirect(`/${lang}`);
   }
 
+  if (!session?.user?.email) {
+    logger.error('Error getting user email');
+    redirect(`/${lang}`);
+  }
+
   const biopsiRoleId = process.env.NEXT_PUBLIC_BIOPSI_MEMBER_ID;
   if (!biopsiRoleId) {
     throw new Error('NEXT_PUBLIC_BIOPSI_MEMBER_ID is not configured');
@@ -36,63 +33,82 @@ export default async function Profile() {
 
   const now = new Date();
 
-  const subscribed = await fetch(
-    `${mailman.baseUrl}/3.1/members/find?subscriber=${session.user.email}&list_id=loop.luuppi.fi`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: mailman.auth,
+  const [
+    localUser,
+    biopsiMembership,
+    mailmanState,
+  ] = await Promise.all([
+    prisma.user.findFirst({
+      where: {
+        entraUserUuid:
+          session.user.entraUserUuid,
       },
-    },
-  )
-    .then(async (res) => {
-      if (!res.ok) return false;
-      const data = await res.json();
-      return data?.total_size > 0;
-    })
-    .catch(() => false);
-
-  const localUser = await prisma.user.findFirst({
-    where: {
-      entraUserUuid: session.user.entraUserUuid,
-    },
-    include: {
-      roles: {
-        include: {
-          role: true,
-        },
-        where: {
-          OR: [
-            {
-              expiresAt: {
-                gte: now,
+      include: {
+        roles: {
+          include: {
+            role: true,
+          },
+          where: {
+            OR: [
+              {
+                expiresAt: {
+                  gte: now,
+                },
               },
-            },
-            {
-              expiresAt: null,
-            },
-          ],
+              {
+                expiresAt: null,
+              },
+            ],
+          },
         },
       },
-    },
-  });
+    }),
+
+    prisma.rolesOnUsers.findUnique({
+      where: {
+        strapiRoleUuid_entraUserUuid: {
+          entraUserUuid:
+            session.user.entraUserUuid,
+          strapiRoleUuid: biopsiRoleId,
+        },
+      },
+    }),
+
+    tuniMailman
+      .isMember(session.user.email)
+      .then((subscribed) => ({
+        available: true,
+        subscribed,
+      }))
+      .catch((error) => {
+        logger.error(
+          error instanceof Error
+            ? `Unable to query TUNI Mailman: ${error.message}`
+            : 'Unable to query TUNI Mailman',
+        );
+
+        return {
+          available: false,
+          subscribed: false,
+        };
+      }),
+  ]);
 
   if (!localUser) {
     logger.error('User not found in database. This should not happen.');
     redirect(`/${lang}/404`);
   }
 
-  const biopsiMembership = await prisma.rolesOnUsers.findUnique({
-    where: {
-      strapiRoleUuid_entraUserUuid: {
-        entraUserUuid: session.user.entraUserUuid,
-        strapiRoleUuid: biopsiRoleId,
-      },
-    },
-  });
+  const isBiopsiMember = Boolean(
+    biopsiMembership &&
+      (
+        biopsiMembership.expiresAt === null ||
+        biopsiMembership.expiresAt >= now
+      ),
+  );
 
-  const isBiopsiMember = Boolean(biopsiMembership && (biopsiMembership.expiresAt === null || biopsiMembership.expiresAt >= now));
-  const showBiopsiMembershipRenewal = Boolean(biopsiMembership?.expiresAt);
+  const showBiopsiMembershipRenewal =
+    Boolean(biopsiMembership?.expiresAt);
 
   return (
     <div className="relative">
@@ -118,7 +134,12 @@ export default async function Profile() {
         )}
         <ProfileNotificationsForm
           dictionary={dictionary}
-          subscribed={subscribed}
+          subscribed={
+            mailmanState.subscribed
+          }
+          available={
+            mailmanState.available
+          }
         />
       </div>
       <div className="luuppi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />

@@ -1,13 +1,80 @@
 import prisma from '@/libs/db/prisma';
 import { sendEventReceiptEmail } from '@/libs/emails/send-event-verify';
+import { checkBiopsiStripeReturn } from '@/libs/payments/check-biopsi-stripe-return';
 import { checkReturn } from '@/libs/payments/check-return';
 import { getStrapiData } from '@/libs/strapi/get-strapi-data';
 import { logger } from '@/libs/utils/logger';
+import { completeBiopsiMembershipRenewal } from '@/libs/utils/membership';
 import { APIResponse } from '@/types/types';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
+    const biopsiResult = await checkBiopsiStripeReturn(
+      request.clone(),
+    );
+
+    if (biopsiResult) {
+      const { orderId, status, stripeCheckoutSessionId } = biopsiResult;
+
+      if (!orderId) {
+        logger.error(`Biopsi Stripe Checkout Session ${stripeCheckoutSessionId} has no client_reference_id`);
+
+        return NextResponse.json({ message: 'OK' }, { status: 200 });
+      }
+
+      const renewal =
+        await prisma.biopsiMembershipRenewal.findUnique({
+          where: {
+            orderId,
+          },
+        });
+
+      if (!renewal) {
+        logger.error(`Biopsi renewal not found for Stripe order ${orderId}`);
+        return NextResponse.json({ message: 'OK' }, { status: 200 });
+      }
+
+      if (status === 'PENDING') {
+        logger.info('Biopsi Stripe payment is pending', { orderId, stripeCheckoutSessionId });
+        return NextResponse.json({ message: 'OK' }, { status: 200 });
+      }
+
+      if (status === 'FAILED') {
+        await prisma.biopsiMembershipRenewal.updateMany({
+          where: {
+            orderId,
+            completedAt: null,
+          },
+          data: {
+            cancelledAt: new Date(),
+          },
+        });
+
+        logger.info('Biopsi membership payment failed or expired', {
+          orderId,
+          stripeCheckoutSessionId,
+        });
+
+        return NextResponse.json({ message: 'OK' }, { status: 200 });
+      }
+
+      const completedRenewal =
+        await completeBiopsiMembershipRenewal({
+          orderId,
+          stripeCheckoutSessionId,
+        });
+
+      logger.info('Biopsi membership renewed successfully', {
+        orderId,
+        entraUserUuid: renewal.entraUserUuid,
+        previousExpiresAt: completedRenewal.previousExpiresAt,
+        newExpiresAt: completedRenewal.newExpiresAt,
+      });
+
+      return NextResponse.json({ message: 'OK' }, { status: 200 });
+    }
+
     const result = await checkReturn(request);
 
     if (!result) {

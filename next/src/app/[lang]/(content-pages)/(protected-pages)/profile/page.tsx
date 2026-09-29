@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
+import ProfileBiopsiMembershipExtension from '@/components/ProfileBiopsiMembershipExtension/ProfileBiopsiMembershipExtension';
 import ProfileEmailform from '@/components/ProfileEmailForm/ProfileEmailForm';
 import ProfileNotificationsForm from '@/components/ProfileNotificationsForm/ProfileNotificationsForm';
-import ProfileUserAddressDeclaration from '@/components/ProfileUserAddressDeclaration/ProfileUserAddressDeclaration';
 import ProfileUserInfoForm from '@/components/ProfileUserInfoForm/ProfileUserInfoForm';
 import { getDictionary } from '@/dictionaries';
 import prisma from '@/libs/db/prisma';
@@ -24,10 +24,17 @@ export default async function Profile() {
   const dictionary = await getDictionary();
 
   const session = await auth();
-  if (!session?.user) {
+  if (!session?.user?.entraUserUuid) {
     logger.error('Error getting user');
     redirect(`/${lang}`);
   }
+
+  const biopsiRoleId = process.env.NEXT_PUBLIC_BIOPSI_MEMBER_ID;
+  if (!biopsiRoleId) {
+    throw new Error('NEXT_PUBLIC_BIOPSI_MEMBER_ID is not configured');
+  }
+
+  const now = new Date();
 
   const subscribed = await fetch(
     `${mailman.baseUrl}/3.1/members/find?subscriber=${session.user.email}&list_id=loop.luuppi.fi`,
@@ -58,7 +65,7 @@ export default async function Profile() {
           OR: [
             {
               expiresAt: {
-                gte: new Date(),
+                gte: now,
               },
             },
             {
@@ -70,27 +77,22 @@ export default async function Profile() {
     },
   });
 
-  const targetYear = getDeclarationYear();
-  const declaration = await prisma.addressDeclaration.findUnique({
-    where: {
-      entraUserUuid_year: {
-        entraUserUuid: session.user.entraUserUuid,
-        year: targetYear,
-      },
-    },
-  });
-  const declared = !!declaration;
-
   if (!localUser) {
     logger.error('User not found in database. This should not happen.');
     redirect(`/${lang}/404`);
   }
 
-  const roles = localUser?.roles.map((role) => role.role.strapiRoleUuid) ?? [];
+  const biopsiMembership = await prisma.rolesOnUsers.findUnique({
+    where: {
+      strapiRoleUuid_entraUserUuid: {
+        entraUserUuid: session.user.entraUserUuid,
+        strapiRoleUuid: biopsiRoleId,
+      },
+    },
+  });
 
-  const isBiopsiMember = roles.includes(
-    process.env.NEXT_PUBLIC_BIOPSI_MEMBER_ID!,
-  );
+  const isBiopsiMember = Boolean(biopsiMembership && (biopsiMembership.expiresAt === null || biopsiMembership.expiresAt >= now));
+  const showBiopsiMembershipRenewal = Boolean(biopsiMembership?.expiresAt);
 
   return (
     <div className="relative">
@@ -107,16 +109,12 @@ export default async function Profile() {
           lang={lang}
           user={localUser}
         />
-        {Boolean(isBiopsiMember) && (
-          <>
-            <ProfileUserAddressDeclaration
-              declared={declared}
-              dictionary={dictionary}
-              isBiopsiMember={isBiopsiMember}
-              lang={lang}
-              user={localUser}
-            />
-          </>
+        {showBiopsiMembershipRenewal && biopsiMembership?.expiresAt && (
+          <ProfileBiopsiMembershipExtension
+            dictionary={dictionary}
+            expiresAt={biopsiMembership.expiresAt}
+            lang={lang}
+          />
         )}
         <ProfileNotificationsForm
           dictionary={dictionary}
@@ -126,12 +124,6 @@ export default async function Profile() {
       <div className="luuppi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />
     </div>
   );
-}
-
-function getDeclarationYear(d = new Date()): number {
-  const month = d.getMonth() + 1;
-  const year = d.getFullYear();
-  return month >= 9 ? year : year - 1; // Sep–Dec → current, Jan–Aug → previous
 }
 
 export async function generateMetadata(): Promise<Metadata> {

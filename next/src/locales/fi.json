@@ -303,6 +303,13 @@
     "seo_title": "Biopsi ry | Laulukirja",
     "seo_description": "Biopsi ry:n laulukirja Biodiin toisen painoksen laulut."
   },
+  "pages_payment": {
+    "membership_payment_completed": "Jäsenmaksu suoritettu",
+    "membership_payment_completed_description": "Jäsenmaksusi on vastaanotettu onnistuneesti. Jäsenyytesi voimassaoloaika päivittyy maksun käsittelyn jälkeen.",
+    "membership_payment_failed": "Jäsenmaksu epäonnistui",
+    "membership_payment_failed_description": "Jäsenmaksua ei voitu suorittaa. Voit palata profiiliisi ja yrittää maksua uudelleen.",
+    "return_to_profile": "Palaa profiiliin"
+  },
   "pages_events": {
     "calendar": "Kalenteri",
     "event_feed": "Tapahtumavirta",
@@ -446,11 +453,15 @@
       "other": "Muu / En halua kertoa",
       "biotechnology": "Bioteknologia"
     },
-    "declare_address": "Ilmoitan tekeväni osoitteenilmoituksen Biopsin sääntöjen 4 § mukaan ajalle",
-    "address_declarated_info": "Osoitteenilmoituksesi on voimassa",
-    "address_not_declared": "Et ole tehnyt osoitteenilmoitusta kaudelle",
     "missing_required_fields": "Olet Biopsin jäsen, mutta sinulta puuttuu pakollisia tietoja. Ole hyvä ja täytä puuttuvat tiedot. Pakolliset kentät on merkitty tähdellä.",
-    "email_subscription": "Sähköpostilistat"
+    "email_subscription": "Sähköpostilistat",
+    "biopsi_membership_extension_title": "Jäsenyys",
+    "biopsi_membership_expires_at": "Biopsin jäsenyytesi voimassaolo päättyy",
+    "biopsi_membership_expired_at": "Biopsin jäsenyytesi päättyi",
+    "biopsi_membership_extension_description": "Voit jatkaa Biopsin jäsenyyttäsi, kun jäsenyyden päättymiseen on enintään kuukausi. Jäsenmaksun suuruus määräytyy yhdistyksen sääntöjen 6 §:n mukaisesti.",
+    "biopsi_membership_expired_description": "Jos haluat jatkaa jäsenyyttäsi, ota yhteyttä rahastonhoitajaan. Rahastonhoitajan yhteystiedot löydät",
+    "biopsi_membership_expired_description_link": "hallituksen sivulta.",
+    "biopsi_membership_extension_button": "Jatka jäsenyyttä vuodella"
   },
   "pages_feedback": {
     "title": "Palaute",

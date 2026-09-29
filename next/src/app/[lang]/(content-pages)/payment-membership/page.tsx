@@ -1,0 +1,59 @@
+import { getDictionary } from '@/dictionaries';
+import { stripe } from '@/libs/payments';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { lang as language } from 'next/root-params';
+
+interface PaymentProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Payment({
+  searchParams: initialSearchParams,
+}: PaymentProps) {
+  const lang = await language();
+  const searchParams = await initialSearchParams;
+
+  const dictionary = await getDictionary();
+  const sessionId = searchParams.session_id as string;
+  const canceled = searchParams.canceled === 'true';
+
+  if (!sessionId && !canceled) {
+    redirect(`/${lang}`);
+  }
+
+  let successful = false;
+
+  if (sessionId) {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      successful = session.payment_status === 'paid';
+    } catch (_error) {
+      redirect(`/${lang}`);
+    }
+  }
+
+  return (
+    <div className="relative flex flex-col items-center justify-center gap-6 text-center max-md:items-start max-md:text-start">
+      <h1>
+        {successful
+          ? dictionary.pages_payment.membership_payment_completed
+          : dictionary.pages_payment.membership_payment_failed}
+      </h1>
+      {sessionId && (
+        <p className="break-all text-sm">
+          <strong>ID:</strong> {sessionId}
+        </p>
+      )}
+      <p className="max-w-xl text-lg max-md:text-base">
+        {successful
+          ? dictionary.pages_payment.membership_payment_completed_description
+          : dictionary.pages_payment.membership_payment_failed_description}
+      </p>
+      <Link className="btn btn-primary btn-sm text-lg" href={`/${lang}/profile`}>
+        {dictionary.pages_payment.return_to_profile}
+      </Link>
+      <div className="luuppi-pattern absolute -left-28 -top-28 -z-50 h-[401px] w-[601px] max-md:left-0 max-md:w-full" />
+    </div>
+  );
+}

@@ -303,6 +303,13 @@
     "seo_title": "Biopsi ry | Songbook",
     "seo_description": "Songs from the second edition of Biopsi ry's songbook Bioodi."
   },
+  "pages_payment": {
+    "membership_payment_completed": "Membership payment completed",
+    "membership_payment_completed_description": "Your membership payment has been received successfully. Your membership period will be updated after the payment has been processed.",
+    "membership_payment_failed": "Membership payment failed",
+    "membership_payment_failed_description": "The membership payment could not be completed. You can return to your profile and try again.",
+    "return_to_profile": "Return to profile"
+  },
   "pages_events": {
     "calendar": "Calendar",
     "event_feed": "Event feed",
@@ -446,11 +453,15 @@
       "other": "Other / Not specified",
       "biotechnology": "Biotechnology"
     },
-    "declare_address": "I'm declaring address according to section 4 of Biopsi's rules for the period",
-    "address_declarated_info": "Your address declaration is valid",
-    "address_not_declared": "You have not made an address declaration for the period",
     "missing_required_fields": "You are a member of Biopsi, but you are missing some required information. Please provide the missing details. Required fields are marked with an asterisk.",
-    "email_subscription": "Email subscription"
+    "email_subscription": "Email subscription",
+    "biopsi_membership_extension_title": "Membership",
+    "biopsi_membership_expires_at": "Your Biopsi membership is valid until",
+    "biopsi_membership_expired_at": "Your Biopsi membership expired on",
+    "biopsi_membership_extension_description": "You can renew your Biopsi membership when there is no more than one month remaining before it expires. The membership fee is determined in accordance with Section 6 of the association's rules.",
+    "biopsi_membership_expired_description": "If you would like to renew your membership, please contact the treasurer. You can find the treasurer's contact information on the",
+    "biopsi_membership_expired_description_link": "Board page.",
+    "biopsi_membership_extension_button": "Extend membership by one year"
   },
   "pages_feedback": {
     "title": "Feedback",

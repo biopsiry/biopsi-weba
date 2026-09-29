@@ -43,6 +43,20 @@ model AddressDeclaration {
   @@unique([entraUserUuid, year])
 }
 
+model BiopsiMembershipRenewal {
+  id                      String    @id @default(cuid())
+  orderId                 String    @unique
+  entraUserUuid           String
+  stripeCheckoutSessionId String?   @unique
+  previousExpiresAt       DateTime?
+  newExpiresAt            DateTime?
+  completedAt             DateTime?
+  cancelledAt             DateTime?
+  createdAt               DateTime  @default(now())
+
+  @@index([entraUserUuid])
+}
+
 model Role {
   id             Int                 @id @default(autoincrement())
   /// UUID from Strapi role

@@ -133,13 +133,9 @@ export default async function Profile() {
           />
         )}
         <ProfileNotificationsForm
+          available={mailmanState.available}
           dictionary={dictionary}
-          subscribed={
-            mailmanState.subscribed
-          }
-          available={
-            mailmanState.available
-          }
+          subscribed={mailmanState.subscribed}
         />
       </div>
       <div className="luuppi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />

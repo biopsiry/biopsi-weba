@@ -1,22 +1,30 @@
 # syntax=docker/dockerfile:1
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Base
-# -----------------------------------------------------------------------------
+# =============================================================================
 
 FROM node:24-bookworm-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
+# Prisma requires OpenSSL to detect the correct query-engine target.
+# ca-certificates is also useful for HTTPS connections from Node/Playwright.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        openssl \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable
 
 WORKDIR /app
 
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Dependencies
-# -----------------------------------------------------------------------------
+# =============================================================================
 
 FROM base AS deps
 
@@ -25,43 +33,47 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 
-# -----------------------------------------------------------------------------
-# Build
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Builder
+# =============================================================================
 
 FROM base AS builder
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=deps /app/node_modules ./node_modules
+
 COPY . .
 
+# Verify Prisma will see OpenSSL 3.
+RUN echo "OpenSSL version during build:" \
+    && openssl version
+
+# package.json build command already runs:
+#
+#   prisma generate && next build
+#
 RUN pnpm build
 
 
-# -----------------------------------------------------------------------------
-# Production
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Production runtime
+# =============================================================================
 
 FROM base AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-# Important:
-# Use a fixed shared location instead of ~/.cache/ms-playwright.
-# Otherwise installing the browsers as root and running Next.js as another
-# user can cause Playwright to look in a different browser directory.
+# Keep Playwright browsers in a shared location instead of root's home/cache.
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 
 # -----------------------------------------------------------------------------
-# Copy Next.js standalone output
+# Next.js standalone build
 # -----------------------------------------------------------------------------
 
 COPY --from=builder /app/.next/standalone ./
@@ -70,48 +82,65 @@ COPY --from=builder /app/public ./public
 
 
 # -----------------------------------------------------------------------------
-# Fix standalone dependencies
-# -----------------------------------------------------------------------------
-#
-# Next.js standalone output contains a traced subset of node_modules.
-#
-# Playwright dynamically reads files such as:
-#
-#   playwright-core/browsers.json
-#
-# Next.js output tracing can miss such files. Installing production
-# dependencies here guarantees that the complete Playwright package exists.
-#
-# IMPORTANT: this must happen AFTER copying .next/standalone.
+# Install complete runtime dependency tree
 # -----------------------------------------------------------------------------
 
 COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma
 
-RUN pnpm install \
-    --prod \
-    --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 
 # -----------------------------------------------------------------------------
-# Install Chromium + Linux dependencies
+# Prisma
 # -----------------------------------------------------------------------------
 
-RUN pnpm exec playwright install --with-deps chromium
+RUN echo "OpenSSL version during runtime build:" \
+    && openssl version
+
+# Generate Prisma Client directly on Debian Bookworm/OpenSSL 3.
+RUN pnpm exec prisma generate
+
+# Fail the Docker build immediately if the correct Prisma engine wasn't
+# generated.
+RUN echo "Checking Prisma OpenSSL 3 engine..." \
+    && find node_modules \
+        -type f \
+        -name '*debian-openssl-3.0.x*' \
+        -print \
+    && find node_modules \
+        -type f \
+        -name '*debian-openssl-3.0.x*' \
+        | grep -q .
 
 
-# Verify during image build instead of discovering missing files in production.
+# -----------------------------------------------------------------------------
+# Playwright
+# -----------------------------------------------------------------------------
+
+# Make sure the complete playwright-core package exists.
 RUN node -e "\
     const fs = require('fs'); \
     const path = require('path'); \
     const pkg = require.resolve('playwright-core/package.json'); \
     const browsers = path.join(path.dirname(pkg), 'browsers.json'); \
-    console.log('playwright-core:', pkg); \
+    console.log('playwright-core package:', pkg); \
     console.log('browsers.json:', browsers); \
     if (!fs.existsSync(browsers)) { \
       throw new Error('playwright-core/browsers.json is missing'); \
     } \
-    console.log('Playwright installation OK'); \
+    console.log('Playwright package check OK'); \
     "
+
+# Install Chromium and all required Debian system packages.
+RUN pnpm exec playwright install --with-deps chromium
+
+
+# -----------------------------------------------------------------------------
+# Production environment
+# -----------------------------------------------------------------------------
+
+ENV NODE_ENV=production
 
 
 # -----------------------------------------------------------------------------
@@ -119,16 +148,22 @@ RUN node -e "\
 # -----------------------------------------------------------------------------
 
 RUN groupadd --system --gid 1001 nodejs \
-    && useradd --system --uid 1001 --gid nodejs nextjs \
-    && chown -R nextjs:nodejs /app \
+    && useradd --system \
+        --uid 1001 \
+        --gid nodejs \
+        nextjs
+
+# Allow the Next.js process to access application files and Playwright browser.
+RUN chown -R nextjs:nodejs /app \
+    && chown -R nextjs:nodejs /ms-playwright \
     && chmod -R a+rX /ms-playwright
 
 USER nextjs
 
 
-# -----------------------------------------------------------------------------
-# Start Next.js standalone server
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Start
+# =============================================================================
 
 EXPOSE 3000
 

@@ -107,9 +107,6 @@ export default async function Profile() {
       ),
   );
 
-  const showBiopsiMembershipRenewal =
-    Boolean(biopsiMembership?.expiresAt);
-
   return (
     <div className="relative">
       <h1 className="mb-12">{dictionary.navigation.profile}</h1>
@@ -125,18 +122,20 @@ export default async function Profile() {
           lang={lang}
           user={localUser}
         />
-        {showBiopsiMembershipRenewal && biopsiMembership?.expiresAt && (
+        {biopsiMembership?.expiresAt && (
           <ProfileBiopsiMembershipExtension
             dictionary={dictionary}
             expiresAt={biopsiMembership.expiresAt}
             lang={lang}
           />
         )}
-        <ProfileNotificationsForm
-          available={mailmanState.available}
-          dictionary={dictionary}
-          subscribed={mailmanState.subscribed}
-        />
+        {isBiopsiMember && (
+          <ProfileNotificationsForm
+            available={mailmanState.available}
+            dictionary={dictionary}
+            subscribed={mailmanState.subscribed}
+          />
+        )}
       </div>
       <div className="luuppi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />
     </div>

@@ -46,6 +46,7 @@
     "node-ical": "^0.20.1",
     "nodemailer": "^7.0.13",
     "playwright": "^1.63.0",
+    "playwright-core": "^1.63.0",
     "qrcode": "^1.5.4",
     "qs": "^6.15.0",
     "react": "19.2.4",

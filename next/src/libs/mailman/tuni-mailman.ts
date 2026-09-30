@@ -155,30 +155,32 @@ class TuniMailman {
 
   private pageCounter = 0;
 
-  private async start() {
-    if (
-      this.browser?.isConnected() &&
-      this.context
-    ) {
-      return;
-    }
+  private startPromise: Promise<void> | null = null;
 
-    if (
-      this.browser &&
-      !this.browser.isConnected()
-    ) {
-      debugLog(
-        'Existing browser is disconnected; recreating it',
-      );
+private async start() {
+  if (
+    this.browser?.isConnected() &&
+    this.context
+  ) {
+    return;
+  }
 
-      this.browser = null;
-      this.context = null;
-      this.authenticated = false;
-    }
+  if (this.startPromise) {
+    await this.startPromise;
+    return;
+  }
 
+  this.startPromise = this.startInternal()
+    .finally(() => {
+      this.startPromise = null;
+    });
+
+  await this.startPromise;
+}
+
+  private async startInternal() {
     const headless =
-      process.env.TUNI_MAILMAN_HEADLESS !==
-      'false';
+      process.env.TUNI_MAILMAN_HEADLESS !== 'false';
 
     debugLog('Starting Chromium', {
       nodeVersion: process.version,
@@ -187,52 +189,52 @@ class TuniMailman {
       headless,
       listId: LIST_ID,
       baseUrl: BASE_URL,
-      usernameConfigured:
-        Boolean(
-          process.env
-            .TUNI_MAILMAN_USERNAME,
-        ),
-      passwordConfigured:
-        Boolean(
-          process.env
-            .TUNI_MAILMAN_PASSWORD,
-        ),
+      usernameConfigured: Boolean(
+        process.env.TUNI_MAILMAN_USERNAME,
+      ),
+      passwordConfigured: Boolean(
+        process.env.TUNI_MAILMAN_PASSWORD,
+      ),
       debugArtifacts: DEBUG_ARTIFACTS,
     });
 
+    const browser = await chromium.launch({
+      headless,
+    });
+
+    debugLog('Chromium started', {
+      browserVersion: browser.version(),
+    });
+
     try {
-      this.browser =
-        await chromium.launch({
-          headless,
-        });
+      const context =
+        await browser.newContext();
 
-      debugLog('Chromium started', {
-        browserVersion:
-          this.browser.version(),
-      });
+      debugLog(
+        'Browser context created',
+      );
 
-      this.browser.on(
+      browser.on(
         'disconnected',
         () => {
           console.error(
             '[TUNI Mailman] Chromium disconnected unexpectedly',
           );
 
-          this.browser = null;
-          this.context = null;
-          this.authenticated = false;
+          if (this.browser === browser) {
+            this.browser = null;
+            this.context = null;
+            this.authenticated = false;
+          }
         },
       );
 
-      this.context =
-        await this.browser.newContext();
-
-      debugLog('Browser context created');
+      this.browser = browser;
+      this.context = context;
     } catch (error) {
-      console.error(
-        '[TUNI Mailman] Failed to start Chromium',
-        error,
-      );
+      await browser.close().catch(() => {
+        // Ignore cleanup error.
+      });
 
       throw error;
     }
@@ -358,10 +360,8 @@ class TuniMailman {
         path: cookie.path,
         secure: cookie.secure,
         httpOnly: cookie.httpOnly,
-        sameSite:
-          cookie.sameSite,
-        expires:
-          cookie.expires,
+        sameSite: cookie.sameSite,
+        expires: cookie.expires,
       }));
     } catch (error) {
       return [

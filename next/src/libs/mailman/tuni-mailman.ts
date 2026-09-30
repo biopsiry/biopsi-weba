@@ -16,12 +16,6 @@ const BASE_URL = 'https://lists.tuni.fi';
 
 const LIST_ID = process.env.TUNI_MAILMAN_LIST_ID;
 
-if (!LIST_ID) {
-  throw new Error(
-    'TUNI_MAILMAN_LIST_ID must be configured',
-  );
-}
-
 const LOGIN_URL = `${BASE_URL}/accounts/login/`;
 const MEMBERS_URL = `${BASE_URL}/mailman3/lists/${LIST_ID}/members/member/`;
 const MASS_SUBSCRIBE_URL = `${BASE_URL}/mailman3/lists/${LIST_ID}/mass_subscribe/`;

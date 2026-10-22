@@ -49,20 +49,17 @@ export async function startBiopsiMembershipRenewal() {
     );
   }
 
-  const membership =
-    await prisma.rolesOnUsers.findUnique({
-      where: {
-        strapiRoleUuid_entraUserUuid: {
-          entraUserUuid,
-          strapiRoleUuid: biopsiRoleId,
-        },
+  const membership = await prisma.rolesOnUsers.findUnique({
+    where: {
+      strapiRoleUuid_entraUserUuid: {
+        entraUserUuid,
+        strapiRoleUuid: biopsiRoleId,
       },
-    });
+    },
+  });
 
   if (!membership) {
-    throw new Error(
-      'Biopsi membership not found',
-    );
+    throw new Error('Biopsi membership not found');
   }
 
   if (!membership.expiresAt) {
@@ -71,9 +68,13 @@ export async function startBiopsiMembershipRenewal() {
     );
   }
 
-  if (membership.expiresAt < new Date()) {
+  const now = new Date();
+  const renewalOpensAt = addCalendarMonths(membership.expiresAt, -1);
+  const renewalClosesAt = addCalendarMonths(membership.expiresAt, 2);
+
+  if (now < renewalOpensAt || now > renewalClosesAt) {
     throw new Error(
-      'Biopsi membership has expired',
+      'Biopsi membership is outside the allowed renewal window',
     );
   }
 
@@ -107,4 +108,20 @@ export async function startBiopsiMembershipRenewal() {
   );
 
   redirect(stripeUrl.toString());
+}
+
+function addCalendarMonths(date: Date, months: number): Date {
+  const result = new Date(date);
+  const originalDay = result.getUTCDate();
+
+  result.setUTCDate(1);
+  result.setUTCMonth(result.getUTCMonth() + months);
+
+  const lastDayOfMonth = new Date(
+    Date.UTC(result.getUTCFullYear(), result.getUTCMonth() + 1, 0),
+  ).getUTCDate();
+
+  result.setUTCDate(Math.min(originalDay, lastDayOfMonth));
+
+  return result;
 }

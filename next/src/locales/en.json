@@ -460,7 +460,7 @@
     "biopsi_membership_extension_title": "Membership",
     "biopsi_membership_expires_at": "Your Biopsi membership is valid until",
     "biopsi_membership_expired_at": "Your Biopsi membership expired on",
-    "biopsi_membership_extension_description": "You can renew your Biopsi membership when there is no more than one month remaining before it expires. The membership fee is determined in accordance with Section 6 of the association's rules.",
+    "biopsi_membership_extension_description": "You can renew your Biopsi membership when there is no more than one month remaining before it expires and two months after exparation. The membership fee is determined in accordance with Section 6 of the association's rules.",
     "biopsi_membership_expired_description": "If you would like to renew your membership, please contact the treasurer. You can find the treasurer's contact information on the",
     "biopsi_membership_expired_description_link": "Board page.",
     "biopsi_membership_extension_button": "Extend membership by one year"

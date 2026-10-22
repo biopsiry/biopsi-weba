@@ -460,7 +460,7 @@
     "biopsi_membership_extension_title": "Jäsenyys",
     "biopsi_membership_expires_at": "Biopsin jäsenyytesi voimassaolo päättyy",
     "biopsi_membership_expired_at": "Biopsin jäsenyytesi päättyi",
-    "biopsi_membership_extension_description": "Voit jatkaa Biopsin jäsenyyttäsi, kun jäsenyyden päättymiseen on enintään kuukausi. Jäsenmaksun suuruus määräytyy yhdistyksen sääntöjen 6 §:n mukaisesti.",
+    "biopsi_membership_extension_description": "Voit jatkaa Biopsin jäsenyyttäsi, kun jäsenyyden päättymiseen on enintään kuukausi ja kaksi kuukautta jäsenyyden päättymisen jälkeen. Jäsenmaksun suuruus määräytyy yhdistyksen sääntöjen 6 §:n mukaisesti.",
     "biopsi_membership_expired_description": "Jos haluat jatkaa jäsenyyttäsi, ota yhteyttä rahastonhoitajaan. Rahastonhoitajan yhteystiedot löydät",
     "biopsi_membership_expired_description_link": "hallituksen sivulta.",
     "biopsi_membership_extension_button": "Jatka jäsenyyttä vuodella"

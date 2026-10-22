@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
+import { NotificationBarLoader } from '@/components/NotificationBar/NotificationBarLoader';
 import UserProfileNotice from '@/components/UserProfileNotice/UserProfileNotice';
 import { getDictionary } from '@/dictionaries';
 import EventSelectorProvider from '@/providers/EventSelectorProvider';

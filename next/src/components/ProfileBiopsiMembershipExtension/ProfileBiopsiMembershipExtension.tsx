@@ -15,8 +15,10 @@ export default function ProfileBiopsiMembershipExtension({
 }: ProfileBiopsiMembershipExtensionProps) {
   const now = new Date();
   const expired = expiresAt < now;
-  const renewalOpensAt = subtractOneCalendarMonth(expiresAt);
-  const canRenew = !expired && now >= renewalOpensAt;
+  const renewalOpensAt = addCalendarMonths(expiresAt, -2);
+  const renewalClosesAt = addCalendarMonths(expiresAt, 2);
+  const canRenew = now >= renewalOpensAt && now <= renewalClosesAt;
+  const expiredTooLong = expired && !canRenew;
 
   return (
     <form
@@ -31,15 +33,18 @@ export default function ProfileBiopsiMembershipExtension({
         {expired
           ? dictionary.pages_profile.biopsi_membership_expired_at
           : dictionary.pages_profile.biopsi_membership_expires_at}{' '}
-        <strong>{new Intl.DateTimeFormat(lang, {
+        <strong>
+          {new Intl.DateTimeFormat(lang, {
             month: 'long',
             year: 'numeric',
             day: 'numeric',
-          }).format(expiresAt)}{'.'}</strong>
+            timeZone: 'UTC',
+          }).format(expiresAt)}{'.'}
+        </strong>
       </p>
 
       <p>
-        {expired ? (
+        {expiredTooLong ? (
           <>
             {dictionary.pages_profile.biopsi_membership_expired_description}{' '}
             <Link className="link" href={`/${lang}/board`}>
@@ -64,22 +69,18 @@ export default function ProfileBiopsiMembershipExtension({
   );
 }
 
-function subtractOneCalendarMonth(date: Date): Date {
+function addCalendarMonths(date: Date, months: number): Date {
   const result = new Date(date);
-  const originalDay = result.getDate();
+  const originalDay = result.getUTCDate();
 
-  result.setDate(1);
-  result.setMonth(result.getMonth() - 1);
+  result.setUTCDate(1);
+  result.setUTCMonth(result.getUTCMonth() + months);
 
   const lastDayOfMonth = new Date(
-    result.getFullYear(),
-    result.getMonth() + 1,
-    0,
-  ).getDate();
+    Date.UTC(result.getUTCFullYear(), result.getUTCMonth() + 1, 0),
+  ).getUTCDate();
 
-  result.setDate(
-    Math.min(originalDay, lastDayOfMonth),
-  );
+  result.setUTCDate(Math.min(originalDay, lastDayOfMonth));
 
   return result;
 }

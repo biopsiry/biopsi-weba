@@ -58,7 +58,8 @@ export async function completeBiopsiMembershipRenewal({
     const now = new Date();
     const previousExpiresAt = membership.expiresAt;
     const extensionBase = previousExpiresAt > now ? previousExpiresAt : now;
-    const newExpiresAt = addCalendarYear(extensionBase);
+    const newExpiresAt = getNextJuly31(extensionBase);
+
     const updateResult = await tx.rolesOnUsers.updateMany({
       where: {
         entraUserUuid: renewal.entraUserUuid,
@@ -91,16 +92,13 @@ export async function completeBiopsiMembershipRenewal({
   });
 }
 
-function addCalendarYear(date: Date): Date {
-  const result = new Date(date);
+function getNextJuly31(date: Date): Date {
+  const year = date.getUTCFullYear();
+  const july31Start = Date.UTC(year, 6, 31);
 
-  const originalMonth = result.getMonth();
+  const targetYear = date.getTime() >= july31Start
+    ? year + 1
+    : year;
 
-  result.setFullYear(result.getFullYear() + 1);
-
-  if (result.getMonth() !== originalMonth) {
-    result.setDate(0);
-  }
-
-  return result;
+  return new Date(Date.UTC(targetYear, 6, 31, 23, 59, 59, 999));
 }

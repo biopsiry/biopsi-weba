@@ -1,12 +1,9 @@
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
-import NotificationBar from '@/components/NotificationBar/NotificationBar';
 import UserProfileNotice from '@/components/UserProfileNotice/UserProfileNotice';
 import { getDictionary } from '@/dictionaries';
-import { getStrapiData } from '@/libs/strapi/get-strapi-data';
 import EventSelectorProvider from '@/providers/EventSelectorProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
-import { APIResponse } from '@/types/types';
 import type { Metadata, Viewport } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import PlausibleProvider from 'next-plausible';
@@ -25,16 +22,11 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function RootLayout(props: RootLayoutProps) {
+export const unstable_paramMatching = { lang: 'not-found' };
+
+export default async function RootLayout({ children }: RootLayoutProps) {
   const lang = await language();
-
-  const { children } = props;
-
   const dictionary = await getDictionary();
-
-  const notification = await getStrapiData<
-    APIResponse<'api::notification.notification'>
-  >(lang, '/api/notification', ['notification'], true);
 
   return (
     <html lang={lang} suppressHydrationWarning>
@@ -88,8 +80,10 @@ export default async function RootLayout(props: RootLayoutProps) {
             <EventSelectorProvider>
               <div className="flex-1">{children}</div>
             </EventSelectorProvider>
-            <Footer dictionary={dictionary} lang={lang} />
-            <NotificationBar lang={lang} notification={notification} />
+            <Footer lang={lang} />
+            <Suspense fallback={<div className="contents" />}>
+              <NotificationBarLoader />
+            </Suspense>
           </ThemeProvider>
         </SessionProvider>
       </body>

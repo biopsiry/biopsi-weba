@@ -107,7 +107,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24.13
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
@@ -122,6 +122,7 @@ jobs:
     if: |
       always() &&
       needs.changes.outputs.next == 'true' &&
+      needs.lint-nextjs.result == 'success' &&
       (needs.strapi.result == 'success' || needs.strapi.result == 'skipped')
     name: Build and Deploy Next.js
     timeout-minutes: 15
@@ -153,6 +154,7 @@ jobs:
           echo NEXT_PUBLIC_NO_ROLE_ID=${{ secrets.NEXT_PUBLIC_NO_ROLE_ID }} >> .env
           echo NEXT_PUBLIC_BIOPSI_MEMBER_ID=${{ secrets.NEXT_PUBLIC_BIOPSI_MEMBER_ID }} >> .env
           echo NEXT_PUBLIC_BIOPSI_HATO_ID=${{ secrets.NEXT_PUBLIC_BIOPSI_HATO_ID }} >> .env
+          echo GIT_COMMIT_SHA=${{ github.sha }} >> .env
         working-directory: ./next
 
       - name: Build Next.js Docker image

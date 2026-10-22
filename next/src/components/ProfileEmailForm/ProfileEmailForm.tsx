@@ -37,6 +37,7 @@ export default function ProfileEmailform({
   lang,
   dictionary,
 }: ProfileEmailFormProps) {
+  const [disabled, setDisabled] = useState(true);
   const [formResponse, setFormResponse] = useState(initialState);
 
   const updateEmailUpdate = async (formData: FormData) => {
@@ -80,10 +81,13 @@ export default function ProfileEmailform({
         title={dictionary.general.email}
         type="email"
         value={user.email}
-        onChange={() => setFormResponse(initialState)}
+        onChange={(event) => {
+          setDisabled(event.currentTarget.value === user.email);
+          setFormResponse(initialState);
+        }}
       />
       <div>
-        <SubmitButton text={dictionary.general.submit} />
+        <SubmitButton disabled={disabled} text={dictionary.general.submit} />
       </div>
     </form>
   );

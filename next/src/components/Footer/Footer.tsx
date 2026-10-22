@@ -1,5 +1,6 @@
+import { getDictionary } from '@/dictionaries';
 import { footerLinks } from '@/libs/constants';
-import { Dictionary, SupportedLanguage } from '@/models/locale';
+import { SupportedLanguage } from '@/models/locale';
 import { cacheLife } from 'next/cache';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,13 +15,14 @@ import { SiLinktree } from 'react-icons/si';
 import biopsiSvg from '../../../public/biopsi.svg';
 
 interface FooterProps {
-  dictionary: Dictionary;
   lang: SupportedLanguage;
 }
 
-export default async function Footer({ dictionary, lang }: FooterProps) {
+export default async function Footer({ lang }: FooterProps) {
   'use cache';
   cacheLife('max');
+
+  const dictionary = await getDictionary(lang);
 
   return (
     <footer className="bg-primary-500 py-12">

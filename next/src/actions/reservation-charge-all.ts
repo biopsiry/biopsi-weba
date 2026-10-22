@@ -5,9 +5,10 @@ import prisma from '@/libs/db/prisma';
 import { sendEventReceiptEmail } from '@/libs/emails/send-event-verify';
 import { createCharge } from '@/libs/payments/create-charge';
 import { logger } from '@/libs/utils/logger';
+import { isValidMember } from '@/libs/utils/user';
 import { SupportedLanguage } from '@/models/locale';
 import { randomUUID } from 'crypto';
-import { revalidatePath, updateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function reservationChargeAll(lang: SupportedLanguage) {
@@ -21,18 +22,24 @@ export async function reservationChargeAll(lang: SupportedLanguage) {
     };
   }
 
-  const localUser = await prisma.user.findUnique({
+  const localUser = await prisma.user.findFirst({
     where: { entraUserUuid: session.user.entraUserUuid },
+    select: {
+      firstName: true,
+      lastName: true,
+      domicle: true,
+    },
   });
 
-  // Missing profile information
-  if (
-    !localUser ||
-    !localUser.firstName ||
-    !localUser.lastName ||
-    !localUser.domicle
-  ) {
-    return { message: dictionary.api.invalid_user, isError: true };
+  if (!localUser) {
+    return { message: dictionary.api.unauthorized, isError: true };
+  }
+
+  if (session.user.isBiopsiMember && !isValidMember(localUser)) {
+    return {
+      message: dictionary.api.incomplete_profile,
+      isError: true,
+    };
   }
 
   const registrations = await prisma.eventRegistration.findMany({
@@ -141,7 +148,6 @@ export async function reservationChargeAll(lang: SupportedLanguage) {
       updateTag(`get-cached-event-participants:${reg.eventDocumentId}`);
       updateTag(`get-cached-event-registrations:${reg.eventDocumentId}`);
     }
-    revalidatePath('/[lang]/events/[slug]', 'page');
   } catch (error) {
     logger.error('Error creating charge', error);
     return {

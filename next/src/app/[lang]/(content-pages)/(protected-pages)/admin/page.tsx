@@ -9,12 +9,17 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { lang as language } from 'next/root-params';
+import { connection } from 'next/server';
 
 interface AdminProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+export const instant = false;
+
 export default async function Admin(props: AdminProps) {
+  await connection();
+
   const searchParams = await props.searchParams;
   const lang = await language();
   const session = await auth();
@@ -73,7 +78,7 @@ export default async function Admin(props: AdminProps) {
       <h1 className="mb-12">{dictionary.navigation.admin}</h1>
       <div className="mb-8 flex w-full items-center justify-between rounded-lg bg-background-50 p-4 max-md:flex-col max-md:justify-center max-md:gap-4 max-md:px-2">
         <div
-          className="tabs-boxed tabs snap-x snap-mandatory scroll-px-4 overflow-x-scroll border bg-white max-md:w-full dark:border-primary-300 dark:bg-inherit"
+          className="tabs-boxed tabs snap-x snap-mandatory scroll-px-4 overflow-x-auto border bg-white max-md:w-full dark:border-primary-300 dark:bg-inherit"
           role="tablist"
         >
           <Link

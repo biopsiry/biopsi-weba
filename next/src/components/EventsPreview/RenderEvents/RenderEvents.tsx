@@ -54,6 +54,7 @@ export default async function RenderEvents({
       'DescriptionEn',
       'DescriptionFi',
       'Slug',
+      'ShowInCalendar',
     ],
     populate: {
       Image: { fields: ['url'] },

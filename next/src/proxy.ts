@@ -30,6 +30,18 @@ function getLocale(request: NextRequest): string | undefined {
   return matchLocale(languages, locales, i18n.defaultLocale);
 }
 
+function clearDraftCookies(res: NextResponse) {
+  res.cookies.set('__prerender_bypass', '', {
+    path: '/',
+    expires: new Date(0),
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+
+  return res;
+}
+
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
@@ -76,16 +88,15 @@ export async function proxy(request: NextRequest) {
   // Disable draft mode if not accessed from CMS preview
   // calling the /api/preview endpoint sets a cookie that is persisted for the session
   // so draft mode would leak if user previews content in the CMS then navigates to luuppi.fi
-  // TODO: using Sec-Fetch-Dest is not the most eloquent solution since it disables for any non iframe request
   // (https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Dest)
-  const draft = await draftMode();
-  if (draft.isEnabled) {
-    const headersList = await headers();
-    const destination = headersList.get('Sec-Fetch-Dest');
+  const hasDraft = request.cookies.has('__prerender_bypass');
+  const isTopLevelNavigation =
+    request.headers.get('sec-fetch-dest') === 'document';
 
-    if (destination !== 'iframe') {
-      draft.disable();
-    }
+  // Redirect so this very request isn't rendered in draft mode,
+  // and attach the cookie deletion to the response we return.
+  if (hasDraft && isTopLevelNavigation) {
+    return clearDraftCookies(NextResponse.redirect(request.nextUrl));
   }
 
   // Check if there is any supported locale in the pathname

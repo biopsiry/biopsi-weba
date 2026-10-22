@@ -1,11 +1,11 @@
 import { Paragraph } from "@strapi/icons";
 import { ComponentType, SVGProps } from "react";
 import {
-    BaseElement,
-    Editor,
-    Path,
-    Element as SlateElement,
-    Transforms,
+  BaseElement,
+  Editor,
+  Path,
+  Element as SlateElement,
+  Transforms,
 } from "slate";
 
 const safetyLink = (lang: string) =>
@@ -13,10 +13,10 @@ const safetyLink = (lang: string) =>
 
 const SAFETY_NOTICE_FI = {
   before:
-    "Tapahtumassa noudatetaan Luupin yhdenvertaisuussuunnitelmaa ja turvallisemman tilan periaatteita, jotka löytyvät ",
+    "Tapahtumassa noudatetaan Biopsin yhdenvertaisuussuunnitelmaa ja turvallisemman tilan periaatteita, jotka löytyvät ",
   linkText: "täältä",
   after:
-    ". Häirintätilanteessa ota yhteyttä tapahtuman pääjärjestäjään tai Luupin yhdenvertaisuusvastaavaan.",
+    ". Häirintätilanteessa ota yhteyttä tapahtuman pääjärjestäjään tai Biopsin yhdenvertaisuusvastaavaan.",
 };
 
 const SAFETY_NOTICE_EN = {
@@ -29,13 +29,13 @@ const SAFETY_NOTICE_EN = {
 
 function buildSafetyChildren(notice: typeof SAFETY_NOTICE_FI, lang: string) {
   return [
-    { type: "text", text: notice.before, italic: true },
+    { type: "text", text: notice.before },
     {
       type: "link",
       url: safetyLink(lang),
-      children: [{ type: "text", text: notice.linkText, italic: true }],
+      children: [{ type: "text", text: notice.linkText }],
     },
-    { type: "text", text: notice.after, italic: true },
+    { type: "text", text: notice.after },
   ];
 }
 

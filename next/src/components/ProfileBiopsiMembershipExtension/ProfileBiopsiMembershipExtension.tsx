@@ -15,7 +15,7 @@ export default function ProfileBiopsiMembershipExtension({
 }: ProfileBiopsiMembershipExtensionProps) {
   const now = new Date();
   const expired = expiresAt < now;
-  const renewalOpensAt = addCalendarMonths(expiresAt, -2);
+  const renewalOpensAt = addCalendarMonths(expiresAt, -1);
   const renewalClosesAt = addCalendarMonths(expiresAt, 2);
   const canRenew = now >= renewalOpensAt && now <= renewalClosesAt;
   const expiredTooLong = expired && !canRenew;

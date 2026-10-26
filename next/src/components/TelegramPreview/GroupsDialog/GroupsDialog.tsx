@@ -3,45 +3,43 @@
 import { telegramGroups } from '@/libs/constants/telegram-groups';
 import { Dictionary, SupportedLanguage } from '@/models/locale';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { BsTelegram } from 'react-icons/bs';
 
 interface GroupsDialogProps {
   dictionary: Dictionary;
-  lang: SupportedLanguage
+  lang: SupportedLanguage;
 }
 
 export default function GroupsDialog({ dictionary }: GroupsDialogProps) {
-  const [open, setOpen] = useState(false);
-
-  const onClose = () => {
-    setOpen(false);
-  };
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   return (
     <>
       <button
         className="btn btn-primary text-lg font-bold max-md:text-base"
-        onClick={() => setOpen(true)}
+        onClick={() => dialogRef.current?.showModal()}
       >
         {dictionary.pages_home.telegram.groups}
       </button>
       <dialog
-        className={`modal modal-bottom sm:modal-middle ${open ? 'modal-open' : ''}`}
+        ref={dialogRef}
+        aria-labelledby="groups-title"
+        className="modal modal-bottom sm:modal-middle [&:not([open])]:hidden"
       >
         <div className="modal-box max-h-[calc(100dvh-6em)]">
-          <h3 className="text-lg font-bold">
+          <h3 className="text-lg font-bold" id="groups-title">
             {dictionary.pages_home.telegram.groups}
           </h3>
           <div className="flex flex-col py-4">
             {telegramGroups.map((group) => (
               <Link
                 key={group.link}
-                className="mb-4 flex items-center gap-2 rounded-lg bg-background-50 p-2 font-bold"
+                className="mb-4 flex items-center gap-2 rounded-lg p-2 font-bold"
                 href={group.link}
                 target="_blank"
               >
-                <BsTelegram size={24} />
+                <BsTelegram size={24} aria-hidden />
                 {
                   dictionary.pages_home.telegram[
                     group.translation as keyof typeof dictionary.pages_home.telegram
@@ -52,15 +50,13 @@ export default function GroupsDialog({ dictionary }: GroupsDialogProps) {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-sm" onClick={onClose}>
-                {dictionary.general.close}
-              </button>
+              <button className="btn btn-sm">{dictionary.general.close}</button>
             </form>
           </div>
         </div>
-        <label className="modal-backdrop" onClick={onClose}>
-          Close
-        </label>
+        <form className="modal-backdrop" method="dialog">
+          <button aria-label={dictionary.general.close}>close</button>
+        </form>
       </dialog>
     </>
   );

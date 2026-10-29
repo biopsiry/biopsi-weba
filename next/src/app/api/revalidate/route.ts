@@ -4,6 +4,11 @@ import { generatePickupCode } from '@/libs/utils/pickup-code';
 import { revalidateTag } from 'next/cache';
 import { NextRequest } from 'next/server';
 
+<<<<<<< HEAD
+=======
+const log = logger.child('api:revalidate');
+
+>>>>>>> 5a9a47f8 (Refactor getStrapiData)
 /**
  * Strapi sends webhooks to this endpoint to revalidate
  * pages when content is updated.
@@ -18,14 +23,17 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const model = body?.model;
+  const model: string | undefined = body?.model;
+  const documentId: string | undefined = body?.entry?.documentId;
 
-  if (body.event !== 'entry.publish' && body.model === 'event') {
-    return new Response('Not revalidating a draft event', {
-      status: 422,
-    });
+  if (!model) return new Response('OK');
+
+  if (model === 'event' && !documentId) {
+    log.error('No documentId in event webhook payload');
+    return new Response('No entry found', { status: 400 });
   }
 
+<<<<<<< HEAD
   if (model) {
     logger.info(`Revalidating ${model}`);
     revalidateTag(model, 'max');
@@ -60,30 +68,68 @@ export async function POST(request: NextRequest) {
         StartDate,
         EndDate,
         documentId,
+=======
+  log.info(`Revalidating ${model}${documentId ? `:${documentId}` : ''}`);
+  revalidateStrapiEntry(model, documentId);
+
+  if (model === 'event') {
+    // Only sync the DB on publish; drafts and other events skip it
+    if (body.event !== 'entry.publish') {
+      return new Response('Revalidated, not syncing non-publish event', {
+        status: 200,
+>>>>>>> 5a9a47f8 (Refactor getStrapiData)
       });
-
-      // Check if the event now requires pickup and backfill if necessary
-      if (Registration?.RequiresPickup === true) {
-        await backfillPickupCodes(documentId);
-      }
     }
 
-    if (model === 'invite' && body?.entry?.Slug) {
-      revalidateTag(`invite-${body.entry.Slug}`, 'max');
-    }
+    const {
+      NameFi,
+      NameEn,
+      LocationFi,
+      LocationEn,
+      StartDate,
+      EndDate,
+      Registration,
+    } = body.entry;
 
+<<<<<<< HEAD
     if (model === 'event-role') {
       if (!body.entry) {
         logger.error('No entry found for event-role');
         return new Response('No entry found', { status: 400 });
       }
+=======
+    await createEvent({
+      NameFi,
+      NameEn,
+      LocationFi,
+      LocationEn,
+      StartDate,
+      EndDate,
+      documentId: documentId!,
+    });
+>>>>>>> 5a9a47f8 (Refactor getStrapiData)
 
-      const { RoleId } = body.entry;
-      await createRole(RoleId);
+    if (Registration?.RequiresPickup === true) {
+      await backfillPickupCodes(documentId!);
     }
   }
 
+  if (model === 'event-role') {
+    if (!body.entry) {
+      log.error('No entry found for event-role');
+      return new Response('No entry found', { status: 400 });
+    }
+    await createRole(body.entry.RoleId);
+  }
+
   return new Response('OK');
+}
+
+function revalidateStrapiEntry(model: string, documentId?: string) {
+  revalidateTag(model, 'max'); // lists + cached "not found" results
+  if (documentId) {
+    revalidateTag(`${model}:${documentId}`, 'max'); // single-entry lookups
+  }
 }
 
 function createRole(roleId: string) {

@@ -29,12 +29,13 @@ export default async function BiopsiSanomatPublication(
   // If two entries are published within same date this blows up (sorry)
   const pageData = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
-  >(
-    'fi',
-    `${baseUrl}${params.slug}&filters[publishedAt][$lte]=${params.slug}T23:59:59.999Z`,
-    ['biopsi-sanomat'],
-    true,
-  );
+  >({
+    lang: 'fi',
+    url: `/api/biopsi-sanomats?${buildQuery(params.slug)}`,
+    collection: 'biopsi-sanomat',
+    ignoreError: true,
+    unique: true,
+  });
 
   if (!pageData?.data.length) {
     redirect(`/${lang}/404`);
@@ -74,7 +75,12 @@ export async function generateMetadata(
   const params = await props.params;
   const data = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
-  >('fi', `${baseUrl}${params.slug}`, ['biopsi-sanomat']);
+  >({
+    lang: 'fi',
+    url: `/api/biopsi-sanomats?${buildQuery(params.slug)}`,
+    collection: 'biopsi-sanomat',
+    unique: true,
+  });
   const lang = await language();
   const sanomatLocaleFlipped = flipSanomatLocale(lang, data.data);
   const selectedPublication = sanomatLocaleFlipped[0];
@@ -91,7 +97,11 @@ export async function generateMetadata(
 export async function generateStaticParams() {
   const pageData = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
-  >('fi', '/api/biopsi-sanomats?pagination[pageSize]=500', ['biopsi-sanomat']);
+  >({
+    lang: 'fi',
+    url: '/api/biopsi-sanomats?pagination[pageSize]=500',
+    collection: 'biopsi-sanomat',
+  });
 
   return pageData.data.map((sanomat) => ({
     slug: toCalendarDate(sanomat.publishedAt!),

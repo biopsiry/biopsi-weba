@@ -97,7 +97,8 @@ export async function GET() {
 
   const newsData = await getStrapiData<
     APIResponseCollection<'api::news-single.news-single'>
-  >('fi', '/api/news', ['news-single']);
+  >({ lang: 'fi', url: '/api/news', collection: 'news-single' });
+
   const news = newsData.data.map((news) => ({
     url: `/fi/news/${news.slug}`,
     lastmod: new Date(news.updatedAt!).toISOString(),
@@ -105,11 +106,11 @@ export async function GET() {
 
   const boardData = await getStrapiData<
     APIResponseCollection<'api::board.board'>
-  >('fi', '/api/boards', ['board']);
+  >({ lang: 'fi', url: '/api/boards', collection: 'board' });
 
   const luuppiSanomatData = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
-  >('fi', '/api/biopsi-sanomats', ['biopsi-sanomat']);
+  >({ lang: 'fi', url: '/api/biopsi-sanomats', collection: 'biopsi-sanomat' });
 
   const weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);
@@ -118,7 +119,7 @@ export async function GET() {
 
   const eventsData = await getStrapiData<
     APIResponseCollection<'api::event.event'>
-  >('fi', url, ['event']);
+  >({ lang: 'fi', collection: 'event', url });
 
   // Filter events based on visibility rules
   const visibleEvents = await filterVisibleEvents(eventsData.data);

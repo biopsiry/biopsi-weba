@@ -13,24 +13,11 @@ export default async function LuuppiSanomat() {
 
   const pageData = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
-  >(
-    'fi',
-    '/api/biopsi-sanomats?populate[1]=image&pagination[pageSize]=500&sort[0]=publishedAt:desc',
-    ['biopsi-sanomat'],
-  );
-
-  const sortedData = pageData.data
-    .filter((publication) => publication.createdAt)
-    .sort((a, b) => {
-      const dateA = a?.publishedAt
-        ? new Date(a.publishedAt).getTime()
-        : new Date(a.createdAt || new Date()).getTime();
-      const dateB = b.publishedAt
-        ? new Date(b.publishedAt).getTime()
-        : new Date(b.createdAt || new Date()).getTime();
-
-      return dateB - dateA;
-    });
+  >({
+    lang: 'fi',
+    url: `/api/biopsi-sanomats?${query}`,
+    collection: 'biopsi-sanomat',
+  });
 
   return (
     <div className="relative flex flex-col gap-12">

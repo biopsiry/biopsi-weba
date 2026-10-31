@@ -1,5 +1,4 @@
 import prisma from '@/libs/db/prisma';
-import { sendEventReceiptEmail } from '@/libs/emails/send-event-verify';
 import { checkBiopsiStripeReturn } from '@/libs/payments/check-biopsi-stripe-return';
 import { checkReturn } from '@/libs/payments/check-return';
 import { getStrapiData } from '@/libs/strapi/get-strapi-data';
@@ -194,33 +193,6 @@ export async function POST(request: NextRequest) {
         { message: 'Error getting email' },
         { status: 400 },
       );
-    }
-
-    if (!payment.confirmationSentAt && successful) {
-      const emailMessageId = await sendEventReceiptEmail({
-        name,
-        email,
-        payment,
-      });
-
-      if (!emailMessageId) {
-        logger.error('Error sending email');
-        return NextResponse.json(
-          { message: 'Error sending email' },
-          { status: 400 },
-        );
-      }
-
-      await prisma.payment.update({
-        where: {
-          orderId,
-        },
-        data: {
-          confirmationSentAt: new Date(),
-        },
-      });
-
-      logger.info(`Event confirmation email sent: ${emailMessageId}`);
     }
   } catch (error) {
     logger.error('Error processing payment webhook', error);

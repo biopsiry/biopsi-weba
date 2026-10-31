@@ -22,7 +22,7 @@ export default function Banner({ lang }: BannerProps) {
             muted
             playsInline
           >
-            <source src="https://biopsi.fi/w7gHt/wp-content/uploads/2020/05/Biopsi_ry_helix.mp4" type="video/mp4" />
+            <source src="https://biopsi.fi/biopsi_helix.mp4" type="video/mp4" />
           </video>
 
           <div className="relative z-10 flex h-full w-full max-md:h-48">

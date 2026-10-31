@@ -80,17 +80,23 @@ const validations = {
           "All ticket types must have unique weights, see the 'Weight' field decsription",
       },
       {
-        throwIf: () => data.Registration?.TicketTypes.some((tt) => !tt.uid),
+        throwIf: () => data.Registration?.TicketTypes?.some((tt) => !tt.uid) ?? false,
         message:
           "Ticket type is missing it's unique identifier. If you copied this event from an old event you will need to recreate the ticket types or the registration will fail with 'Invalid event'",
       },
       {
         throwIf: () => {
-          return data.Registration.TicketTypes?.some(
+          const registration = data.Registration;
+
+          if (!registration?.AllowQuestionEditUntil) {
+            return false;
+          }
+
+          return registration.TicketTypes?.some(
             (tt) =>
-              Date.parse(data.Registration.AllowQuestionEditUntil as string) <
+              Date.parse(registration.AllowQuestionEditUntil as string) <
               Date.parse(tt.RegistrationEndsAt as string),
-          );
+          ) ?? false;
         },
         message: "Question edit deadline is set before registration ends",
       },

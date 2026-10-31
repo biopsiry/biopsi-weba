@@ -184,7 +184,6 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const name = localUser.username ?? localUser.firstName ?? '';
     const email = localUser.email;
 
     if (!email) {

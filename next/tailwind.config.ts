@@ -6,13 +6,13 @@ const config: Config = {
       {
         light: {
           ...require('daisyui/src/theming/themes')['light'],
-          primary: '#787eba',
-          accent: '#b166cc',
+          primary: '#a497bc',
+          accent: '#C0AAD2',
         },
         dark: {
           ...require('daisyui/src/theming/themes')['night'],
-          primary: '#787eba',
-          accent: '#b166cc',
+          primary: '#a497bc',
+          accent: '#C0AAD2',
         },
       },
     ],

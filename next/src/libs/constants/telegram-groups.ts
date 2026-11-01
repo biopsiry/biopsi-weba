@@ -1,35 +1,14 @@
 export const telegramGroups = [
   {
-    translation: 'information_channel',
-    link: 'https://t.me/LuupinTiedotus',
-  },
-  {
     translation: 'general_chat',
-    link: 'https://t.me/Luuppi',
+    link: 'https://t.me/+',
   },
   {
-    translation: 'study_group_cs',
-    link: 'https://t.me/LuuppiTKT',
-  },
-  {
-    translation: 'study_group_math',
-    link: 'https://t.me/LuuppiMTT',
-  },
-  {
-    translation: 'flea_market',
-    link: 'https://t.me/+Lf6pFTLXqmMyMDNk',
-  },
-  {
-    translation: 'kyykkä_group',
-    link: 'https://t.me/+19lL95IO2lU3ZDlk',
-  },
-  {
-    translation: 'alumni_group',
-    link: 'https://t.me/alumni_luuppi',
+    translation: 'homebrew_club',
+    link: 'https://t.me/+D4cRZgT1QV44YTBk',
   },
   {
     translation: 'new_students',
-    link: 'https://t.me/+oYCeeD-roSJjNjY0',
-    linkEn: 'https://t.me/+sG9uZSwMkV01MTg0'
+    link: 'https://t.me/+t7W41sLwM584ZDA8'
   },
 ];

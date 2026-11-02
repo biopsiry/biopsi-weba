@@ -67,8 +67,8 @@ export default function Hero({ dictionary, lang }: HeroProps) {
       <div className="luuppi-hero-container relative flex w-1/2 max-xl:h-80 max-xl:w-full">
         <div className="luuppi-hero-cards flex h-full w-[100vw] items-center justify-center max-xl:max-w-[450px] max-md:max-w-[400px] max-sm:max-w-[380px]">
           <object
-            className="h-full w-full"
-            data="/biopsi-cards.svg"
+            className="w-full"
+            data="/biopsi-cards.jpg"
             type="image/svg+xml"
           />
         </div>

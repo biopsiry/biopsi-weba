@@ -9,6 +9,7 @@ export const telegramGroups = [
   },
   {
     translation: 'new_students',
-    link: 'https://t.me/+t7W41sLwM584ZDA8'
+    link: 'https://t.me/+t7W41sLwM584ZDA8',
+    linkEn: 'https://t.me/+t7W41sLwM584ZDA8'
   },
 ];

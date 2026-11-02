@@ -75,6 +75,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <SessionProvider>
           <ThemeProvider>
             <Header dictionary={dictionary} lang={lang} />
+            <UserProfileNotice dictionary={dictionary} lang={lang} />
             <Suspense fallback={null}>
               <UserProfileNotice dictionary={dictionary} lang={lang} />
             </Suspense>

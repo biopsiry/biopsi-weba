@@ -1,8 +1,6 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { type NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'nodejs';
-
 const ENTRA_CALLER_APP_ID = '99045fe1-7639-4a75-9d4a-577b6ca3810f';
 const EVENT_TYPE = 'microsoft.graph.authenticationEvent.attributeCollectionStart';
 const RESPONSE_TYPE = 'microsoft.graph.onAttributeCollectionStartResponseData';

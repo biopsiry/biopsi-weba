@@ -52,9 +52,6 @@ const getStaticPages = (lang: SupportedLanguage) => {
     // Sanomat
     `/${lang}/biopsi-sanomat`,
 
-    // Sports
-    `/${lang}/sports`,
-
     // Contact
     `/${lang}/contact`,
 

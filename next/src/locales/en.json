@@ -80,7 +80,6 @@
     "kolmio_representative": "Kolmio Party representative",
     "tutoring_representative": "Tutoring representative",
     "international_representative": "International representative",
-    "sports_representative": "Sports representative",
     "event_representative": "Event representative",
     "sustainable_development_representive": "Sustainable Development representative",
     "premises_representative": "Premises representative",
@@ -223,7 +222,6 @@
     "sanomat": "Publications",
     "gallery": "Gallery",
     "overall_patches": "Overall patches",
-    "sports": "Sports",
     "collaboration": "Collaboration",
     "rules": "Rules",
     "board": "Board",
@@ -286,9 +284,7 @@
       "title": "Join our Telegram",
       "description": "In the academic world, Telegram is a widely used communication channel, and Biopsi has its own groups! Join us to stay updated on events and other current affairs.",
       "groups": "Groups",
-      "new_students": "2026 new students group",
       "general_chat": "General chat (fi/en)",
-      "homebrew_club": "Biopsi's Homebrew Club",
       "new_student_group": "Are you a first-year student? First-year students also have their own group annually, which you should definitely join! The updated link to the first-year student group can be found on the first-year student page at the beginning of the academic year!"
     }
   },

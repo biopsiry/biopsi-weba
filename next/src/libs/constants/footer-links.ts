@@ -116,10 +116,6 @@ export const footerLinks: FooterLink[] = [
         href: '/biopsi-sanomat',
       },
       {
-        translation: 'sports',
-        href: '/sports',
-      },
-      {
         translation: 'contact',
         href: '/contact',
       },

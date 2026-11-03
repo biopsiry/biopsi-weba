@@ -80,7 +80,6 @@
     "kolmio_representative": "Kolmiovastaava",
     "tutoring_representative": "Tutorointivastaava",
     "international_representative": "KV-tuutorointivastaava",
-    "sports_representative": "Liikuntavastaava",
     "event_representative": "Tapahtumavastaava",
     "sustainable_development_representive": "Kestävän kehityksen vastaava",
     "premises_representative": "Toimitilavastaava",
@@ -223,7 +222,6 @@
     "sanomat": "BiopsiSanomat",
     "gallery": "Galleria",
     "overall_patches": "Haalarimerkit",
-    "sports": "Liikunta",
     "collaboration": "Yritysyhteistyö",
     "rules": "Säännöt",
     "board": "Hallitus",
@@ -286,9 +284,7 @@
       "title": "Liity Telegram-ryhmään",
       "description": "Akateemisessa maailmassa Telegram on suosittu viestintäkanava, ja Biopsilla on omia ryhmiä, joissa voit liittyä seuraamaan tapahtumia ja muita ajankohtaisia asioita. Tule mukaan ja pysy kärryillä!",
       "groups": "Ryhmät",
-      "new_students": "2026 fuksiryhmä",
       "general_chat": "Yleinen keskusteluryhmä (fi/en)",
-      "homebrew_club": "Biopsin oluen panoseura",
       "new_student_group": "Oletko fuksi? Fukseille on myös vuosittain oma ryhmänsä, johon kannattaa ehdottomasti liittyä! Fuksiryhmän päivitetty linkki löytyy fuksisivulta fuksivuoden alkaessa!"
     }
   },

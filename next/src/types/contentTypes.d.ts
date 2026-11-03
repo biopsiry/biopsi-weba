@@ -1791,54 +1791,6 @@ export interface ApiPrivacyPolicyPrivacyPolicy extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiSportSport extends Struct.SingleTypeSchema {
-  collectionName: 'sports';
-  info: {
-    description: '';
-    displayName: 'Sports';
-    pluralName: 'sports';
-    singularName: 'sport';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    ContactBanner: Schema.Attribute.Component<'shared.contact-banner', false> &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Content: Schema.Attribute.Component<'shared.page-content', false> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::sport.sport'>;
-    publishedAt: Schema.Attribute.DateTime;
-    Seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
 
 export interface ApiStudiesGeneralStudiesGeneral
   extends Struct.SingleTypeSchema {
@@ -2633,7 +2585,6 @@ declare module '@strapi/strapi' {
       'api::organization-rule.organization-rule': ApiOrganizationRuleOrganizationRule;
       'api::organization-overall-patch.organization-overall-patch': ApiOrganizationOverallPatchOrganizationOverallPatch;
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
-      'api::sport.sport': ApiSportSport;
       'api::studies-general.studies-general': ApiStudiesGeneralStudiesGeneral;
       'api::studies-workshop.studies-workshop': ApiStudiesWorkshopStudiesWorkshop;
       'api::tutoring-faq.tutoring-faq': ApiTutoringFaqTutoringFaq;

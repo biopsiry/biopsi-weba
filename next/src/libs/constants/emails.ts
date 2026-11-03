@@ -44,10 +44,6 @@ export const luuppiEmails = [
     translation: 'international_representative',
   },
   {
-    email: 'liikunta@biopsi.fi',
-    translation: 'sports_representative',
-  },
-  {
     email: 'tapahtuma@biopsi.fi',
     translation: 'event_representative',
   },

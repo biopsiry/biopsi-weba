@@ -129,10 +129,6 @@ export const navLinksDesktop: NavLink[] = [
     href: '/events',
   },
   {
-    translation: 'sports',
-    href: '/sports',
-  },
-  {
     translation: 'contact',
     sublinks: [
       {
@@ -169,10 +165,6 @@ export const navLinksMobile: NavLink[] = [
     translation: 'admin',
     href: '/admin?mode=event',
     authenticationLevel: 'biopsi-hato',
-  },
-  {
-    translation: 'sports',
-    href: '/sports',
   },
   {
     translation: 'events',

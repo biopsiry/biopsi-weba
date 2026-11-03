@@ -105,7 +105,7 @@ export default function AdminUserGeneral({
           id="telegramUsername"
           marginTop={false}
           placeholder={dictionary.general.telegramUsername}
-          required={userIsBiopsiMember}
+          required={false}
           title={dictionary.general.telegramUsername}
           type="text"
           value={user.telegramUsername ?? ''}

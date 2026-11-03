@@ -1,7 +1,8 @@
 import type { User } from '@prisma/client';
 
-type RequiredField = keyof Pick<User, 'firstName' | 'lastName' | 'domicle'>;
+type RequiredField = keyof Pick<User, 'telegramUsername' | 'firstName' | 'lastName' | 'domicle'>;
 const requiredFields = [
+  'telegramUsername',
   'firstName',
   'lastName',
   'domicle',

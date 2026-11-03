@@ -18,6 +18,7 @@ export async function GET() {
   }
 
   const requiredFields: Array<keyof typeof localUser> = [
+    'telegramUsername',
     'firstName',
     'lastName',
     'domicle',

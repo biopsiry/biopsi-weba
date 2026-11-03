@@ -1,6 +1,6 @@
 'use client';
 import { Dictionary, SupportedLanguage } from '@/models/locale';
-import Image from "next/image";
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef } from 'react';
 
@@ -68,11 +68,11 @@ export default function Hero({ dictionary, lang }: HeroProps) {
       <div className="luuppi-hero-container relative flex w-1/2 max-xl:h-80 max-xl:w-full">
         <div className="luuppi-hero-cards flex h-full w-full items-center justify-center max-xl:max-w-[450px] max-md:max-w-[400px] max-sm:max-w-[380px]">
           <Image
-            src="/biopsi-cards.jpg"
             alt="Biopsi cards"
-            width={800}
-            height={600}
             className="h-auto w-full"
+            height={600}
+            src="/biopsi-cards.jpg"
+            width={800}
           />
         </div>
       </div>

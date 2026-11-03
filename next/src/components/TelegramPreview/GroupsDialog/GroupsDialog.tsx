@@ -11,7 +11,7 @@ interface GroupsDialogProps {
   lang: SupportedLanguage
 }
 
-export default function GroupsDialog({ dictionary ,lang }: GroupsDialogProps) {
+export default function GroupsDialog({ dictionary }: GroupsDialogProps) {
   const [open, setOpen] = useState(false);
 
   const onClose = () => {

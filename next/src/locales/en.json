@@ -10,6 +10,7 @@
     "email_sending_failed": "Email sending failed. This could be caused by invalid email address or server error.",
     "invalid_user": "Your profile is missing required information. Update required fields marked with an asterisk on profile page before proceeding.",
     "invalid_username": "Invalid username. Username must be 3-30 characters long and it can only contain letters and numbers.",
+    "invalid_telegram_username": "Invalid Telegram username. Use 3–35 letters, numbers, or underscores.",
     "invalid_first_name": "Invalid first names. First names must be 2-70 characters long.",
     "invalid_last_name": "Invalid last name. Last name must be 2-35 characters long..",
     "invalid_domicle": "Invalid domicile. Domicile must be 2-35 characters long.",
@@ -108,6 +109,7 @@
     "firstNames": "First name(s)",
     "lastName": "Last name",
     "close": "Close",
+    "telegramUsername": "Telegram username",
     "preferredFullName": "Preferred full name",
     "domicle": "Domicile",
     "major": "Major",
@@ -473,6 +475,7 @@
   "pages_profile": {
     "do_not_use_tuni_email": "Use an email address other than @tuni.fi.",
     "username_explanation": "Username is used to identify you on the website. It must be 3-30 characters long. Username can be displayed publicly.",
+    "telegram_username_explanation": "Your public Telegram username without the @ symbol. If you are a member of Biopsi ry, your username will be used to add you to the private Telegram group for Biopsi members.",
     "first_name_explanation": "All your official first names. This is information required by section 11 of the Associations Act, which will be verified upon joining the association.",
     "lastname_explanation": "Official surname. This is information required by section 11 of the Associations Act, which will be verified upon joining the association.",
     "preferred_full_name_explanation": "Desired full name. This is the name by which you will be called within the association. This could be, for example, a nickname or another name you wish to be called by. This information is used, for example, in seating arrangements at events.",

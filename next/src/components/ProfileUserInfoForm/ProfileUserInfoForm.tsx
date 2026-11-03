@@ -43,7 +43,7 @@ export default function ProfileUserInfoForm({
 
   const hasMissingInformation =
     isBiopsiMember &&
-    (!user.firstName || !user.lastName || !user.domicle || !user.major);
+    (!user.firstName || !user.lastName || !user.domicle || !user.major || !user.telegramUsername);
 
   return (
     <form action={handleProfileUpdate} className="card card-body">
@@ -90,6 +90,25 @@ export default function ProfileUserInfoForm({
         title={dictionary.general.username}
         type="text"
         value={user.username ?? ''}
+        onChange={() => setFormResponse(initialState)}
+      />
+      <FormInput
+        error={formResponse.field === 'telegramUsername' ? formResponse.message : ''}
+        id="telegramUsername"
+        labelTopRight={
+          <span
+            className="tooltip tooltip-left flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-secondary-400 text-white"
+            data-tip={dictionary.pages_profile.telegram_username_explanation}
+          >
+            <FaQuestion size={12} />
+          </span>
+        }
+        marginTop={false}
+        placeholder={dictionary.general.telegramUsername}
+        required={isBiopsiMember}
+        title={dictionary.general.telegramUsername}
+        type="text"
+        value={user.telegramUsername ?? ''}
         onChange={() => setFormResponse(initialState)}
       />
       <FormInput

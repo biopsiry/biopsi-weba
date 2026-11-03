@@ -16,6 +16,7 @@ export interface UserWithRegistrations {
   entraUserUuid: string;
   email: string | null;
   username: string | null;
+  telegramUsername: string | null;
   major: string;
   domicle: string | null;
   preferredFullName: string | null;
@@ -146,6 +147,7 @@ export default async function Page(props: {
     entraUserUuid: user.entraUserUuid,
     email: user.email,
     username: user.username,
+    telegramUsername: user.telegramUsername,
     major: user.major,
     domicle: user.domicle,
     preferredFullName: user.preferredFullName,

@@ -85,6 +85,10 @@ export async function profileUpdate(
       // - Only letters, numbers, underscores, hyphens, and Finnish/Swedish characters
       regex: /^(?!.*[-_]{2})[a-zA-Z0-9äÄöÖåÅ_-]{3,30}$/,
     },
+    telegramUsername: {
+      value: formData.get('telegramUsername')?.toString().trim().replace(/^@/, '') || null,
+      regex: /^[a-zA-Z0-9_]{3,35}$/,
+    },
     firstName: {
       value: formData.get('firstName'),
       regex: /^.{2,70}$/,
@@ -142,6 +146,7 @@ export async function profileUpdate(
       lastName: fieldsToUpdate.lastName,
       firstName: fieldsToUpdate.firstName,
       username: fieldsToUpdate.username,
+      telegramUsername: fieldsToUpdate.telegramUsername,
       preferredFullName: fieldsToUpdate.preferredFullName,
       major:
         fieldsToUpdate.major === 'BIOTECHNOLOGY'

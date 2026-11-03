@@ -44,7 +44,7 @@ export default function AdminUserGeneral({
 
   const hasMissingInformation =
     userIsBiopsiMember &&
-    (!user.firstName || !user.lastName || !user.domicle || !user.major);
+    (!user.firstName || !user.lastName || !user.domicle || !user.major || !user.telegramUsername);
 
   return (
     <>
@@ -98,6 +98,17 @@ export default function AdminUserGeneral({
           required={false}
           title={dictionary.general.username}
           value={user.username ?? ''}
+          onChange={() => setFormResponse(initialState)}
+        />
+        <FormInput
+          error={formResponse.field === 'telegramUsername' ? formResponse.message : ''}
+          id="telegramUsername"
+          marginTop={false}
+          placeholder={dictionary.general.telegramUsername}
+          required={userIsBiopsiMember}
+          title={dictionary.general.telegramUsername}
+          type="text"
+          value={user.telegramUsername ?? ''}
           onChange={() => setFormResponse(initialState)}
         />
         <FormInput

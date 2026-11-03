@@ -20,6 +20,7 @@ model User {
   entraUserUuid      String               @unique
   email              String               @unique
   username           String?
+  telegramUsername   String?
   firstName          String?
   lastName           String?
   preferredFullName  String?

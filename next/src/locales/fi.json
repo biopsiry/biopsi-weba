@@ -10,6 +10,7 @@
     "email_sending_failed": "Sähköpostin lähetys epäonnistui. Tämä voi johtua väärästä sähköpostiosoitteesta tai teknisestä ongelmasta.",
     "invalid_user": "Profiilistasi puutuu pakollisia tietoja. Päivitä tähdellä merkityt pakolliset kentät profiilisivulla ennen jatkamista.",
     "invalid_username": "Kelvoton käyttäjänimi. Käyttäjänimen tulee olla 3-30 merkkiä pitkä ja se voi sisältää vain kirjaimia ja numeroita.",
+    "invalid_telegram_username": "Virheellinen Telegram-käyttäjätunnus. Käytä 3–35 merkkiä: kirjaimia, numeroita tai alaviivoja.",
     "invalid_first_name": "Kelvottomat etunimet. Etunimien yhteispituuden tulee olla 2-70 merkkiä pitkä.",
     "invalid_last_name": "Kelvoton sukunimi. Sukunimen tulee olla 2-35 merkkiä pitkä.",
     "invalid_domicle": "Kelvoton kotikunta. Kotikunnan tulee olla 2-35 merkkiä pitkä.",
@@ -108,6 +109,7 @@
     "all_categories": "Kaikki kategoriat",
     "lastName": "Sukunimi",
     "close": "Sulje",
+    "telegramUsername": "Telegram käyttäjätunnus",
     "preferredFullName": "Ensisijainen koko nimi",
     "domicle": "Kotikunta",
     "major": "Pääaine",
@@ -473,6 +475,7 @@
   "pages_profile": {
     "do_not_use_tuni_email": "Käytä muuta kuin @tuni.fi-sähköpostiosoitetta.",
     "username_explanation": "Käyttäjänimi on tarkoitettu tunnistamaan sinut verkkosivustolla. Sen on oltava 3-30 merkkiä pitkä. Käyttäjänimeä voidaan näyttää julkisesti.",
+    "telegram_username_explanation": "Julkinen Telegram käyttäjätunnuksesi ilman @-merkkiä. Jos olet Biopsi ry jäsen, käyttäjätunnustasi käytetään lisäämään sinut biopsilaisten suljettuun Telegram-ryhmään.",
     "first_name_explanation": "Kaikki viralliset etunimesi. Tämä on yhdistyslain 11 § vaatima tieto, joka tarkistetaan yhdistykseen liittyessä.",
     "lastname_explanation": "Virallinen sukunimi. Tämä on yhdistyslain 11 § vaatima tieto, joka tarkistetaan yhdistykseen liittyessä.",
     "preferred_full_name_explanation": "Haluttu koko nimi. Tämä on nimi, jolla sinua kutsutaan yhdistyksen sisällä. Tämä voi olla esimerkiksi lempinimi tai muu nimi, jolla haluat tulla kutsutuksi. Tätä tietoa käytetään esimerkiksi tapahtumien pöytäplaseerauksissa.",

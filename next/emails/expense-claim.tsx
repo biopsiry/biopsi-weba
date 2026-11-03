@@ -100,8 +100,8 @@ export const LuuppiExpenseClaim = ({
             : 'Liitteenä yhdistetty kuitti-PDF. Procountorin tuontitiedostoa ei voitu luoda.'}
         </Text>
         <Hr style={hr} />
-        <Text style={footer}>Luuppi ry, Yliopistonkatu 58b, 33100 Tampere</Text>
-        <Text style={footer}>Y-tunnus: 0512347-2</Text>
+        <Text style={footer}>Biopsi ry, Arvo Ylpön katu 34, huone F 108, 33520 Tampere</Text>
+        <Text style={footer}>Y-tunnus: 2101176-1</Text>
       </Container>
     </Body>
   </Html>

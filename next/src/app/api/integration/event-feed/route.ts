@@ -27,7 +27,7 @@ interface EventsFeedError {
 }
 
 /**
- * This is integration endpoint for Lärpäke which is in separate repository.
+ * This is integration endpoint for Fuksipassi which is in separate repository.
  */
 export async function GET(
   request: NextRequest,

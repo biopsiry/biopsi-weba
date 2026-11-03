@@ -443,6 +443,60 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBiopsiSanomatBiopsiSanomat
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'biopsi_sanomats';
+  info: {
+    description: '';
+    displayName: 'BiopsiSanomat';
+    pluralName: 'biopsi-sanomats';
+    singularName: 'biopsi-sanomat';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::biopsi-sanomat.biopsi-sanomat'
+    >;
+    pdf: Schema.Attribute.Media<'files'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
+    Seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiBoardMemberBoardMember extends Struct.CollectionTypeSchema {
   collectionName: 'board_members';
   info: {
@@ -1072,60 +1126,6 @@ export interface ApiJobOpportunityJobOpportunity
   };
 }
 
-export interface ApiBiopsiSanomatBiopsiSanomat
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'biopsi_sanomats';
-  info: {
-    description: '';
-    displayName: 'BiopsiSanomat';
-    pluralName: 'biopsi-sanomats';
-    singularName: 'biopsi-sanomat';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    image: Schema.Attribute.Media<'images'> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::biopsi-sanomat.biopsi-sanomat'
-    >;
-    pdf: Schema.Attribute.Media<'files'> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    publishedAt: Schema.Attribute.DateTime;
-    Seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiMeetingMinuteDocumentMeetingMinuteDocument
   extends Struct.CollectionTypeSchema {
   collectionName: 'meeting_minute_documents';
@@ -1649,53 +1649,6 @@ export interface ApiOrganizationOfficeOrganizationOffice
   };
 }
 
-export interface ApiOrganizationRuleOrganizationRule
-  extends Struct.SingleTypeSchema {
-  collectionName: 'organization_rules';
-  info: {
-    description: '';
-    displayName: 'OrganizationRules';
-    pluralName: 'organization-rules';
-    singularName: 'organization-rule';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    Content: Schema.Attribute.Component<'shared.page-content', false> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::organization-rule.organization-rule'
-    >;
-    publishedAt: Schema.Attribute.DateTime;
-    Seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiOrganizationOverallPatchOrganizationOverallPatch
   extends Struct.SingleTypeSchema {
   collectionName: 'organization_overall_patches';
@@ -1728,6 +1681,53 @@ export interface ApiOrganizationOverallPatchOrganizationOverallPatch
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::organization-overall-patch.organization-overall-patch'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOrganizationRuleOrganizationRule
+  extends Struct.SingleTypeSchema {
+  collectionName: 'organization_rules';
+  info: {
+    description: '';
+    displayName: 'OrganizationRules';
+    pluralName: 'organization-rules';
+    singularName: 'organization-rule';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Content: Schema.Attribute.Component<'shared.page-content', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::organization-rule.organization-rule'
     >;
     publishedAt: Schema.Attribute.DateTime;
     Seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -2604,6 +2604,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::biopsi-sanomat.biopsi-sanomat': ApiBiopsiSanomatBiopsiSanomat;
       'api::board-member.board-member': ApiBoardMemberBoardMember;
       'api::board-role.board-role': ApiBoardRoleBoardRole;
       'api::board.board': ApiBoardBoard;
@@ -2617,7 +2618,6 @@ declare module '@strapi/strapi' {
       'api::events-calendar.events-calendar': ApiEventsCalendarEventsCalendar;
       'api::invite.invite': ApiInviteInvite;
       'api::job-opportunity.job-opportunity': ApiJobOpportunityJobOpportunity;
-      'api::biopsi-sanomat.biopsi-sanomat': ApiBiopsiSanomatBiopsiSanomat;
       'api::meeting-minute-document.meeting-minute-document': ApiMeetingMinuteDocumentMeetingMinuteDocument;
       'api::news-list.news-list': ApiNewsListNewsList;
       'api::news-single.news-single': ApiNewsSingleNewsSingle;
@@ -2628,8 +2628,8 @@ declare module '@strapi/strapi' {
       'api::organization-general.organization-general': ApiOrganizationGeneralOrganizationGeneral;
       'api::organization-honorary-member.organization-honorary-member': ApiOrganizationHonoraryMemberOrganizationHonoraryMember;
       'api::organization-office.organization-office': ApiOrganizationOfficeOrganizationOffice;
-      'api::organization-rule.organization-rule': ApiOrganizationRuleOrganizationRule;
       'api::organization-overall-patch.organization-overall-patch': ApiOrganizationOverallPatchOrganizationOverallPatch;
+      'api::organization-rule.organization-rule': ApiOrganizationRuleOrganizationRule;
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::sport.sport': ApiSportSport;
       'api::studies-general.studies-general': ApiStudiesGeneralStudiesGeneral;

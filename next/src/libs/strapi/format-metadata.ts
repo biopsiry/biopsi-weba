@@ -30,7 +30,7 @@ export const formatMetadata = (
 
   if (isNews && !openGraphImage) {
     const ogUrl = new URL('https://luuppi-opengraph.vercel.app/api/og');
-    ogUrl.searchParams.append('author', seo.metaAuthor ?? 'Luuppi ry');
+    ogUrl.searchParams.append('author', seo.metaAuthor ?? 'Biopsi ry');
     ogUrl.searchParams.append('title', seo.metaTitle);
     ogUrl.searchParams.append(
       'published',

@@ -36,7 +36,7 @@ export function buildEventMetadata(
 
   return {
     ...(opts.noIndex && { robots: { index: false } }),
-    title: `${title} | Luuppi ry`,
+    title: `${title} | Biopsi ry`,
     description,
     alternates: {
       canonical: pathname,
@@ -49,7 +49,7 @@ export function buildEventMetadata(
       title,
       description,
       url: pathname,
-      siteName: 'Luuppi ry',
+      siteName: 'Biopsi ry',
       images,
     },
     twitter: { title, description, card: 'summary_large_image', images },

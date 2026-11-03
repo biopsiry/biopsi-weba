@@ -180,7 +180,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: `${dictionary.navigation.board} ${latestBoard.year}`,
       description: `${dictionary.pages_board.seo_description} ${latestBoard.year}`,
       url: pathname,
-      siteName: 'Luuppi ry',
+      siteName: 'Biopsi ry',
     },
     twitter: {
       title: `${dictionary.navigation.board} ${latestBoard.year}`,

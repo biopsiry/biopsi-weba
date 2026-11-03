@@ -37,12 +37,8 @@ export default function GroupsDialog({ dictionary ,lang }: GroupsDialogProps) {
             {telegramGroups.map((group) => (
               <Link
                 key={group.link}
-                className={`mb-4 flex items-center gap-2 rounded-lg p-2 font-bold ${
-                  group.translation === 'new_students'
-                    ? 'bg-accent-400 text-white'
-                    : 'bg-background-50'
-                }`}
-                href={lang === 'en' ? (group.linkEn ?? group.link) : group.link}
+                className="mb-4 flex items-center gap-2 rounded-lg bg-background-50 p-2 font-bold"
+                href={group.link}
                 target="_blank"
               >
                 <BsTelegram size={24} />
@@ -53,7 +49,6 @@ export default function GroupsDialog({ dictionary ,lang }: GroupsDialogProps) {
                 }
               </Link>
             ))}
-            <p>{dictionary.pages_home.telegram.new_student_group}</p>
           </div>
           <div className="modal-action">
             <form method="dialog">

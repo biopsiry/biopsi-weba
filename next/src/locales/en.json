@@ -58,7 +58,7 @@
     "user_added_to_role": "User added to role successfully",
     "user_removed_from_role": "User removed from role successfully",
     "role_already_exists": "User already has the role",
-    "incomplete_profile": "Your profile is missing information required for the membership register. Please update your profile (biopsi.fi/profile) with first names, family name and municipality to continue with your action.",
+    "incomplete_profile": "Your profile is missing information required for the membership register. Please update your profile (biopsi.fi/profile) with Telegram username, first names, family name and municipality to continue with your action.",
     "invalid_iban": "That IBAN doesn't look valid. Check it for typos.",
     "invalid_purpose": "Describe what the expenses were for (3-100 characters).",
     "invalid_business_id": "Invalid business ID.",

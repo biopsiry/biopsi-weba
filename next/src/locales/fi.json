@@ -58,7 +58,7 @@
     "user_added_to_role": "Käyttäjä lisätty rooliin onnistuneesti",
     "user_removed_from_role": "Käyttäjä poistettu roolista onnistuneesti",
     "role_already_exists": "Käyttäjällä on jo rooli",
-    "incomplete_profile": "Profiilistasi puuttuu jäsenrekisterin vaatimia tietoja. Päivitä profiilisivulla (luuppi.fi/profile) etunimet, sukunimi ja kotikunta jatkaaksesi.",
+    "incomplete_profile": "Profiilistasi puuttuu jäsenrekisterin vaatimia tietoja. Päivitä profiilisivulla (biopsi.fi/profile) etunimet, sukunimi ja kotikunta jatkaaksesi.",
     "invalid_iban": "IBAN ei näytä oikealta. Tarkista kirjoitusvirheet.",
     "invalid_purpose": "Kerro mihin kulut liittyivät (3-100 merkkiä).",
     "invalid_business_id": "Epäkelvollinen Y-tunnus.",

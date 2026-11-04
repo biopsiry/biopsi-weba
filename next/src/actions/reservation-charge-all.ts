@@ -25,6 +25,7 @@ export async function reservationChargeAll(lang: SupportedLanguage) {
   const localUser = await prisma.user.findFirst({
     where: { entraUserUuid: session.user.entraUserUuid },
     select: {
+      telegramUsername: true,
       firstName: true,
       lastName: true,
       domicle: true,

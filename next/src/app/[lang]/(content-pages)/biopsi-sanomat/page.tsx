@@ -3,13 +3,26 @@ import { toCalendarDate } from '@/libs/constants';
 import { getStrapiData } from '@/libs/strapi/get-strapi-data';
 import { getStrapiUrl } from '@/libs/strapi/get-strapi-url';
 import { firstLetterToUpperCase } from '@/libs/utils/first-letter-uppercase';
-import { APIResponseCollection } from '@/types/types';
+import { APIResponseCollection, APIResponseData } from '@/types/types';
 import Image from 'next/image';
 import { lang as language } from 'next/root-params';
+import qs from 'qs';
+
+type Publication = APIResponseData<'api::biopsi-sanomat.biopsi-sanomat'>;
+
+const getPublishedDate = (publication: Publication) =>
+  publication.publishedAt ||
+  publication.createdAt!;
 
 export default async function LuuppiSanomat() {
   const lang = await language();
   const dictionary = await getDictionary();
+
+  const query = qs.stringify({
+    populate: ['image'],
+    pagination: { pageSize: 500 },
+    sort: ['publishedAt:desc'],
+  });
 
   const pageData = await getStrapiData<
     APIResponseCollection<'api::biopsi-sanomat.biopsi-sanomat'>
@@ -23,11 +36,11 @@ export default async function LuuppiSanomat() {
     <div className="relative flex flex-col gap-12">
       <h1>{dictionary.navigation.sanomat}</h1>
       <div className="grid grid-cols-4 gap-12 max-lg:grid-cols-3 max-sm:grid-cols-2">
-        {sortedData.map((publication) => (
+        {pageData.data.map((publication) => (
           <a
             key={publication.documentId}
             className="group relative flex cursor-pointer flex-col gap-4 transition-transform duration-300 hover:scale-105"
-            href={`/${lang}/biopsi-sanomat/${toCalendarDate(publication.publishedAt!)}`}
+            href={`/${lang}/biopsi-sanomat/${toCalendarDate(getPublishedDate(publication))}`}
           >
             {publication.image.url && (
               <div
@@ -45,12 +58,10 @@ export default async function LuuppiSanomat() {
             )}
             <div className="absolute bottom-0 right-0 z-20 rounded-br-lg rounded-tl-lg bg-accent-400 px-2 py-1 font-bold text-white">
               {firstLetterToUpperCase(
-                new Date(
-                  publication?.publishedAt || publication.createdAt!,
-                ).toLocaleDateString(lang, {
-                  month: 'short',
-                  year: 'numeric',
-                }),
+                new Date(getPublishedDate(publication)).toLocaleDateString(
+                  lang,
+                  { month: 'short', year: 'numeric' },
+                ),
               )}
             </div>
             <div className="absolute bottom-0 z-10 h-full w-full rounded-lg bg-gradient-to-t from-black to-transparent opacity-25" />

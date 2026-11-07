@@ -4,11 +4,8 @@ import { generatePickupCode } from '@/libs/utils/pickup-code';
 import { revalidateTag } from 'next/cache';
 import { NextRequest } from 'next/server';
 
-<<<<<<< HEAD
-=======
 const log = logger.child('api:revalidate');
 
->>>>>>> 5a9a47f8 (Refactor getStrapiData)
 /**
  * Strapi sends webhooks to this endpoint to revalidate
  * pages when content is updated.
@@ -33,42 +30,6 @@ export async function POST(request: NextRequest) {
     return new Response('No entry found', { status: 400 });
   }
 
-<<<<<<< HEAD
-  if (model) {
-    logger.info(`Revalidating ${model}`);
-    revalidateTag(model, 'max');
-
-    if (model === 'event') {
-      logger.info(`Revalidating event-${body.entry.documentId}`);
-
-      if (!body.entry?.documentId) {
-        logger.error(`No entry found for event-${body.entry.documentId}`);
-        return new Response('No entry found', { status: 400 });
-      }
-
-      revalidateTag(`event-${body.entry.documentId}`, 'max');
-      revalidateTag(`event-${body.entry.Slug}`, 'max');
-
-      const {
-        NameFi,
-        NameEn,
-        LocationFi,
-        LocationEn,
-        StartDate,
-        EndDate,
-        documentId,
-        Registration,
-      } = body.entry;
-
-      await createEvent({
-        NameFi,
-        NameEn,
-        LocationFi,
-        LocationEn,
-        StartDate,
-        EndDate,
-        documentId,
-=======
   log.info(`Revalidating ${model}${documentId ? `:${documentId}` : ''}`);
   revalidateStrapiEntry(model, documentId);
 
@@ -77,7 +38,6 @@ export async function POST(request: NextRequest) {
     if (body.event !== 'entry.publish') {
       return new Response('Revalidated, not syncing non-publish event', {
         status: 200,
->>>>>>> 5a9a47f8 (Refactor getStrapiData)
       });
     }
 
@@ -91,13 +51,6 @@ export async function POST(request: NextRequest) {
       Registration,
     } = body.entry;
 
-<<<<<<< HEAD
-    if (model === 'event-role') {
-      if (!body.entry) {
-        logger.error('No entry found for event-role');
-        return new Response('No entry found', { status: 400 });
-      }
-=======
     await createEvent({
       NameFi,
       NameEn,
@@ -107,7 +60,6 @@ export async function POST(request: NextRequest) {
       EndDate,
       documentId: documentId!,
     });
->>>>>>> 5a9a47f8 (Refactor getStrapiData)
 
     if (Registration?.RequiresPickup === true) {
       await backfillPickupCodes(documentId!);

@@ -9,18 +9,42 @@ import { APIResponseCollection } from '@/types/types';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { lang as language } from 'next/root-params';
+import qs from 'qs';
 
-const baseUrl =
-  '/api/biopsi-sanomats?populate[0]=image&populate[1]=pdf&populate[2]=Seo.openGraph.openGraphImage&populate[3]=Seo.twitter.twitterImage&populate[4]=localizations&populate=localizations.Seo.twitter.twitterImage&populate=localizations.Seo.openGraph.openGraphImage&filters[publishedAt][$gte]=';
-
-interface BiopsiSanomatProps {
+interface LuuppiSanomatProps {
   params: Promise<{ slug: string }>;
 }
 
 export const instant = false;
 
-export default async function BiopsiSanomatPublication(
-  props: BiopsiSanomatProps,
+const buildQuery = (slug: string) => {
+  const startOfDay = `${slug}T00:00:00.000Z`;
+  const endOfDay = `${slug}T23:59:59.999Z`;
+
+  return qs.stringify({
+    populate: [
+      'image',
+      'pdf',
+      'Seo.openGraph.openGraphImage',
+      'Seo.twitter.twitterImage',
+      'localizations',
+      'localizations.Seo.twitter.twitterImage',
+      'localizations.Seo.openGraph.openGraphImage',
+    ],
+    filters: {
+      $or: [
+        {
+          publishedAt: { $gte: startOfDay, $lte: endOfDay },
+        },
+      ],
+    },
+    pagination: { limit: 1 },
+    sort: ['publishedAt:asc'],
+  });
+};
+
+export default async function LuuppiSanomatPublication(
+  props: LuuppiSanomatProps,
 ) {
   const lang = await language();
   const params = await props.params;
@@ -50,7 +74,8 @@ export default async function BiopsiSanomatPublication(
       <h1>
         {dictionary.general.publication}{' '}
         {new Date(
-          selectedPublication?.publishedAt || selectedPublication.createdAt!,
+          selectedPublication?.publishedAt ||
+          selectedPublication.createdAt!,
         )
           .toLocaleDateString(lang, {
             month: 'short',
@@ -64,13 +89,13 @@ export default async function BiopsiSanomatPublication(
           pdfUrl={getStrapiUrl(selectedPublication.pdf?.url)}
         />
       </div>
-      <div className="luuppi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />
+      <div className="biopsi-pattern absolute -left-48 -top-10 -z-50 h-[701px] w-[801px] max-md:left-0 max-md:h-full max-md:w-full max-md:rounded-none" />
     </article>
   );
 }
 
 export async function generateMetadata(
-  props: BiopsiSanomatProps,
+  props: LuuppiSanomatProps,
 ): Promise<Metadata> {
   const params = await props.params;
   const data = await getStrapiData<

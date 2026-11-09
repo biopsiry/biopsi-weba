@@ -1419,6 +1419,53 @@ export interface ApiOrganizationAlumniOrganizationAlumni
   };
 }
 
+export interface ApiOrganizationAssociationRibbonOrganizationAssociationRibbon
+  extends Struct.SingleTypeSchema {
+  collectionName: 'organization_association_ribbon';
+  info: {
+    description: '';
+    displayName: 'OrganizationAssociationRibbon';
+    pluralName: 'organization-association-ribbons';
+    singularName: 'organization-association-ribbon';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Content: Schema.Attribute.Component<'shared.page-content', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::organization-association-ribbon.organization-association-ribbon'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOrganizationBenefitOrganizationBenefit
   extends Struct.SingleTypeSchema {
   collectionName: 'organization_benefits';
@@ -1451,6 +1498,53 @@ export interface ApiOrganizationBenefitOrganizationBenefit
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::organization-benefit.organization-benefit'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOrganizationClubsOrganizationClubs
+  extends Struct.SingleTypeSchema {
+  collectionName: 'organization_clubs';
+  info: {
+    description: '';
+    displayName: 'OrganizationClubs';
+    pluralName: 'organization-clubss';
+    singularName: 'organization-clubs';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    Content: Schema.Attribute.Component<'shared.page-content', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::organization-clubs.organization-clubs'
     >;
     publishedAt: Schema.Attribute.DateTime;
     Seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -2579,7 +2673,9 @@ declare module '@strapi/strapi' {
       'api::news-single.news-single': ApiNewsSingleNewsSingle;
       'api::notification.notification': ApiNotificationNotification;
       'api::organization-alumni.organization-alumni': ApiOrganizationAlumniOrganizationAlumni;
+      'api::organization-association-ribbon.organization-association-ribbon': ApiOrganizationAssociationRibbonOrganizationAssociationRibbon;
       'api::organization-benefit.organization-benefit': ApiOrganizationBenefitOrganizationBenefit;
+      'api::organization-clubs.organization-clubs': ApiOrganizationClubsOrganizationClubs;
       'api::organization-document.organization-document': ApiOrganizationDocumentOrganizationDocument;
       'api::organization-general.organization-general': ApiOrganizationGeneralOrganizationGeneral;
       'api::organization-honorary-member.organization-honorary-member': ApiOrganizationHonoraryMemberOrganizationHonoraryMember;

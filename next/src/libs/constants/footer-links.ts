@@ -36,6 +36,14 @@ export const footerLinks: FooterLink[] = [
         href: '/organization/overall-patches',
       },
       {
+        translation: 'association_ribbon',
+        href: '/organization/association-ribbon',
+      },
+      {
+        translation: 'clubs',
+        href: '/organization/clubs',
+      },
+      {
         translation: 'honorary_members',
         href: '/organization/honorary-members',
       },

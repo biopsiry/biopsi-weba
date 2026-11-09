@@ -25,6 +25,8 @@ const getStaticPages = (lang: SupportedLanguage) => {
     `/${lang}/organization/office`,
     `/${lang}/organization/overall-patches`,
     `/${lang}/organization/honorary-members`,
+    `/${lang}/organization/association-ribbon`,
+    `/${lang}/organization/clubs`,
     `/${lang}/organization/alumni`,
     `/${lang}/organization/benefits`,
     `/${lang}/organization/documents`,

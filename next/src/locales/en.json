@@ -515,6 +515,17 @@
     "invalid_role": "Invalid role",
     "must_be_logged_in": "You must be logged in to claim this invite. Create an account or login using the button below to return to this page."
   },
+  "pages_songs": {
+    "search_placeholder": "Search songs...",
+    "all_categories": "All categories",
+    "clear_search": "Clear search",
+    "loading_title": "Loading songs...",
+    "loading_search": "Searching for {search}",
+    "loading_all": "Loading songs from the songbook",
+    "no_results_title": "No songs found",
+    "empty_filters": "Try selecting another category or clear the filters."
+  },
+
   "pages_error": {
     "title": "Error",
     "description": "An error occurred while processing your request.",

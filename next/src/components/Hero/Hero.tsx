@@ -30,7 +30,7 @@ export default function Hero({ dictionary, lang }: HeroProps) {
   return (
     <section className="relative mx-auto flex max-w-[1200px] justify-center gap-8 px-4 pb-20 pt-28 max-2xl:overflow-hidden max-xl:flex-col max-xl:gap-20 max-md:pt-20">
       <div className="flex w-1/2 flex-col max-xl:w-full">
-        <h1 className="mb-8 max-w-3xl leading-[3.8rem] max-md:leading-[3rem]">
+        <h1 className="mb-8 max-w-lg leading-[3.8rem] max-md:leading-[3rem]">
           {dictionary.pages_home.hero.title_1}{' '}
           <span className="inline-grid overflow-hidden align-bottom">
             {studyAreas.map((area, i) => (
@@ -49,7 +49,7 @@ export default function Hero({ dictionary, lang }: HeroProps) {
           </span>{' '}
           {dictionary.pages_home.hero.title_2}
         </h1>
-        <p className="mb-8 max-w-2xl text-lg max-md:text-base">
+        <p className="mb-8 max-w-lg text-lg max-md:text-base">
           {dictionary.pages_home.hero.description}
         </p>
         <div>

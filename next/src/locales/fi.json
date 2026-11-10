@@ -516,14 +516,10 @@
     "must_be_logged_in": "Sinun täytyy olla kirjautuneena lunastaaksesi tämän roolin. Luo uusi käyttäjä tai kirjaudu sisään alla olevalla napilla palataksesi sivulle."
   },
   "pages_songs": {
-    "search_placeholder": "Hae lauluja...",
     "all_categories": "Kaikki kategoriat",
     "clear_search": "Tyhjennä haku",
     "loading_title": "Ladataan lauluja...",
-    "loading_search": "Etsitään hakusanalla {search}",
-    "loading_all": "Haetaan laulukirjan kappaleita",
     "no_results_title": "Lauluja ei löytynyt",
-    "empty_category_title": "Tässä kategoriassa ei ole lauluja",
     "empty_filters": "Kokeile valita toinen kategoria tai tyhjennä hakuehdot."
   },
   "pages_error": {

@@ -254,7 +254,7 @@
       "molecular_biology": "molecular biology",
       "title_1": "Biopsi ry, home for",
       "title_2": "students since 2001.",
-      "description": "Biopsi ry is the student organization for bioinformatics, cell technology and molecular biology students at the University of Tampere. Since 2001, Biopsi has been actively advocating for its members' interests and organizing leisure activities. It boasts the largest membership among student organizations at the University of Tampere!",
+      "description": "Biopsi ry is the student organization for bioinformatics, cell technology and molecular biology students at the University of Tampere. Since 2001, Biopsi has been actively advocating for its members' interests and organizing leisure activities!",
       "read_more": "Read more"
     },
     "discover": {
@@ -516,12 +516,9 @@
     "must_be_logged_in": "You must be logged in to claim this invite. Create an account or login using the button below to return to this page."
   },
   "pages_songs": {
-    "search_placeholder": "Search songs...",
     "all_categories": "All categories",
     "clear_search": "Clear search",
     "loading_title": "Loading songs...",
-    "loading_search": "Searching for {search}",
-    "loading_all": "Loading songs from the songbook",
     "no_results_title": "No songs found",
     "empty_filters": "Try selecting another category or clear the filters."
   },
